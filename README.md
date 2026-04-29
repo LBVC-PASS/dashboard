@@ -1,5 +1,5 @@
 # dashboard
-# Vanier College — Safety & Security Services
+# Safety & Security Services
 ## Operations Dashboard
 
 A personal operational dashboard for tracking all active projects, policy development, procurement, facilities, and municipal work. Built as a static HTML file, version-controlled via Git, and updated through Claude Code.
@@ -122,5 +122,4 @@ Restore SEC-004 for annual review
 
 ## Contact
 
-**Loïc Boyer**
-Coordinator, Safety & Security Services — Collège Vanier
+Coordinator, Safety & Security Services — 
