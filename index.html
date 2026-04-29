@@ -1295,17 +1295,20 @@ let DATA = {
         projects: [
           {
             id: 'SEC-012', title: 'Access List — Student Boycott May 1st',
-            status: 'queued', priority: 'high', due: '2026-04-30',
-            scope: 'Prepare access list for the student boycott of May 1st.',
+            status: 'review', priority: 'high', due: '2026-04-30',
+            scope: 'Prepare access list for the student boycott of May 1st. List covers approximately 25 categories. Distribution to officers pending approval.',
             milestones: [
-              { text: 'Draft access list', done: false },
+              { text: 'Draft access list', done: true },
               { text: 'Review and approve', done: false },
               { text: 'Distribute to officers', done: false },
             ],
             questions: [],
             file: '',
             notes: '',
-            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+            changelog: [
+              { date: '2026-04-29', text: 'Item created.' },
+              { date: '2026-04-29', text: 'Draft completed. Status set to In Review — awaiting approval before distribution.' },
+            ],
           },
           {
             id: 'SEC-013', title: 'Post Orders — Student Boycott May 1st Observers & Agents',
