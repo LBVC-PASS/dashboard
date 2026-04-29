@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanier S&S — Operations Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --surface2: #f2f1ed;
+  --border: #e2e0d8;
+  --border-strong: #c8c4b8;
+  --text: #1a1916;
+  --text-secondary: #6b6860;
+  --text-muted: #9e9b93;
+  --accent: #1a4a8a;
+  --accent-light: #e8eef7;
+
+  --sec: #1a6b4a;
+  --sec-bg: #e8f5ef;
+  --prc: #7a3a00;
+  --prc-bg: #fdf0e5;
+  --fac: #4a1a6b;
+  --fac-bg: #f3e8f5;
+  --mun: #1a4a8a;
+  --mun-bg: #e8eef7;
+
+  --status-queued: #9e9b93;
+  --status-queued-bg: #f2f1ed;
+  --status-active: #1a6b4a;
+  --status-active-bg: #e8f5ef;
+  --status-blocked: #9a2a1a;
+  --status-blocked-bg: #fdecea;
+  --status-done: #1a4a8a;
+  --status-done-bg: #e8eef7;
+  --status-review: #7a5a00;
+  --status-review-bg: #fdf5e0;
+
+  --priority-high: #c0392b;
+  --priority-med: #c07c00;
+  --priority-low: #1a6b4a;
+
+  --radius: 6px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── HEADER ───────────────────────────────────── */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 60px;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+
+.logo-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.header-stats {
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+  align-items: center;
+}
+
+.hstat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 0 12px;
+  border-left: 1px solid var(--border);
+}
+
+.hstat:first-child { border-left: none; }
+
+.hstat-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.hstat-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.hstat.active .hstat-num { color: var(--status-active); }
+.hstat.blocked .hstat-num { color: var(--status-blocked); }
+.hstat.done .hstat-num { color: var(--status-done); }
+.hstat.total .hstat-num { color: var(--text); }
+
+.btn-print {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-print:hover { background: var(--surface2); color: var(--text); }
+
+/* ── TABS ─────────────────────────────────────── */
+.tabs-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs-bar::-webkit-scrollbar { display: none; }
+
+.tabs-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 2px;
+}
+
+.tab-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 12px 18px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: -1px;
+}
+.tab-btn:hover { color: var(--text); background: var(--surface2); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.tab-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  background: var(--surface2);
+  color: var(--text-muted);
+  padding: 1px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.tab-btn.active .tab-count {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent-light);
+}
+
+/* ── TOOLBAR ──────────────────────────────────── */
+.toolbar {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 32px;
+}
+
+.toolbar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+}
+
+.search-wrap svg {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 7px 10px 7px 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.search-input:focus { border-color: var(--accent); }
+.search-input::placeholder { color: var(--text-muted); }
+
+.filter-select {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.filter-select:focus { border-color: var(--accent); }
+
+.btn-add {
+  margin-left: auto;
+  padding: 7px 16px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-add:hover { background: #153d72; }
+
+/* ── MAIN CONTENT ─────────────────────────────── */
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 32px;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── CATEGORY ─────────────────────────────────── */
+.category {
+  margin-bottom: 32px;
+}
+
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cat-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cat-progress-wrap {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 200px;
+}
+
+.cat-progress-bar {
+  height: 100%;
+  background: var(--status-done);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.cat-pct {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.cat-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--surface2);
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+/* ── PROJECT CARD ─────────────────────────────── */
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.15s;
+}
+
+.project-card:hover { box-shadow: var(--shadow-md); }
+
+.project-card.done { opacity: 0.65; }
+
+.card-top {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.project-id {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--surface2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.project-title {
+  font-weight: 500;
+  font-size: 14px;
+  flex: 1;
+  color: var(--text);
+}
+
+.project-card.done .project-title {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.status-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+.status-badge:hover { opacity: 0.8; }
+
+.status-badge.queued  { background: var(--status-queued-bg);  color: var(--status-queued); }
+.status-badge.active  { background: var(--status-active-bg);  color: var(--status-active); }
+.status-badge.blocked { background: var(--status-blocked-bg); color: var(--status-blocked); }
+.status-badge.done    { background: var(--status-done-bg);    color: var(--status-done); }
+.status-badge.review  { background: var(--status-review-bg);  color: var(--status-review); }
+
+.priority-pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.priority-pip.high { background: var(--priority-high); }
+.priority-pip.med  { background: var(--priority-med); }
+.priority-pip.low  { background: var(--priority-low); }
+
+.due-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.due-badge.overdue { color: var(--status-blocked); font-weight: 500; }
+
+.chevron {
+  color: var(--text-muted);
+  font-size: 10px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.project-card.expanded .chevron { transform: rotate(90deg); }
+
+.milestones-mini {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.ms-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+.ms-dot.done { background: var(--status-active); }
+
+/* ── CARD BODY ────────────────────────────────── */
+.card-body {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+.project-card.expanded .card-body { display: block; }
+
+.card-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+@media (max-width: 768px) {
+  .card-sections { grid-template-columns: 1fr; }
+}
+
+.card-section {
+  padding: 16px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.card-section:nth-child(2n) { border-right: none; }
+.card-section:last-child, .card-section.full-width {
+  grid-column: 1 / -1;
+  border-right: none;
+}
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.section-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Milestones */
+.milestone-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.milestone-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.milestone-item input[type="checkbox"] {
+  margin-top: 2px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.milestone-item.done-ms {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+/* Questions */
+.question-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.question-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.question-item input[type="checkbox"] {
+  margin-top: 2px;
+  accent-color: var(--sec);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.question-item.resolved {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+/* File ref */
+.file-ref {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 4px 10px;
+  border-radius: 4px;
+  word-break: break-all;
+  display: inline-block;
+}
+
+/* Changelog */
+.changelog {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.cl-entry {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.cl-entry:last-child { border-bottom: none; }
+
+.cl-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.cl-text { color: var(--text-secondary); }
+
+/* Notes area */
+.notes-area {
+  width: 100%;
+  min-height: 72px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  resize: vertical;
+  outline: none;
+  line-height: 1.5;
+}
+.notes-area:focus { border-color: var(--accent); }
+
+/* ── MODAL ────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+.modal-close:hover { color: var(--text); }
+
+.modal-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+
+.form-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.form-input, .form-select, .form-textarea {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--surface);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+
+.form-textarea { min-height: 80px; resize: vertical; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-cancel {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  background: transparent;
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+.btn-cancel:hover { background: var(--surface2); }
+
+.btn-save {
+  padding: 8px 20px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn-save:hover { background: #153d72; }
+
+/* ── EMPTY STATE ──────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state p { margin-top: 8px; font-size: 13px; }
+
+/* ── COMPLETED TAB ────────────────────────────── */
+.completed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+
+.completed-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.completed-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.year-group {
+  margin-bottom: 28px;
+}
+
+.year-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.origin-group {
+  margin-bottom: 16px;
+}
+
+.origin-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 6px;
+  padding-left: 4px;
+  border-left: 3px solid var(--border-strong);
+  padding-left: 8px;
+}
+
+.btn-restore {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.btn-restore:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.completed-empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+}
+.completed-empty .icon { font-size: 48px; margin-bottom: 12px; }
+.completed-empty p { font-size: 14px; }
+.completed-empty small { font-size: 12px; color: var(--text-muted); margin-top: 6px; display: block; }
+
+/* ── TOAST ────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #1a1916;
+  color: #f7f6f2;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  max-width: 440px;
+  width: calc(100vw - 48px);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.toast-body { flex: 1; }
+.toast-title {
+  font-weight: 600;
+  margin-bottom: 3px;
+  color: #ffffff;
+}
+.toast-msg {
+  color: #b0ada6;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.toast-cmd {
+  margin-top: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  background: rgba(255,255,255,0.08);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #c8a94a;
+  display: inline-block;
+}
+
+/* ── PRINT ────────────────────────────────────── */
+@media print {
+  .site-header, .tabs-bar, .toolbar, .btn-print, .btn-add,
+  .modal-overlay, .chevron, .status-badge { 
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .card-body { display: block !important; }
+  .project-card { break-inside: avoid; }
+  .main { padding: 0; }
+
+  .site-header {
+    position: static;
+    box-shadow: none;
+    border-bottom: 2px solid #000;
+  }
+
+  .tabs-bar, .toolbar { display: none; }
+  .tab-panel { display: block !important; }
+
+  body { font-size: 11px; }
+}
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media (max-width: 640px) {
+  .site-header, .tabs-bar, .toolbar { padding-left: 16px; padding-right: 16px; }
+  .main { padding: 16px; }
+  .header-inner { gap: 12px; }
+  .hstat { padding: 0 8px; }
+  .logo-sub { display: none; }
+  .btn-print { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-title">S&S Operations</span>
+      <span class="logo-sub">Vanier College</span>
+    </div>
+    <div class="header-stats">
+      <div class="hstat total"><span class="hstat-num" id="stat-total">0</span><span class="hstat-label">Total</span></div>
+      <div class="hstat active"><span class="hstat-num" id="stat-active">0</span><span class="hstat-label">Active</span></div>
+      <div class="hstat blocked"><span class="hstat-num" id="stat-blocked">0</span><span class="hstat-label">Blocked</span></div>
+      <div class="hstat done"><span class="hstat-num" id="stat-done">0</span><span class="hstat-label">Done</span></div>
+    </div>
+    <button class="btn-print" onclick="window.print()">⎙ Print</button>
+  </div>
+</header>
+
+<!-- TABS -->
+<nav class="tabs-bar">
+  <div class="tabs-inner" id="tabs-inner"></div>
+</nav>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" type="text" placeholder="Search by ID, title, keyword…" id="search-input">
+    </div>
+    <select class="filter-select" id="filter-status">
+      <option value="">All statuses</option>
+      <option value="queued">Queued</option>
+      <option value="active">Active</option>
+      <option value="review">In Review</option>
+      <option value="blocked">Blocked</option>
+      <option value="done">Done</option>
+    </select>
+    <select class="filter-select" id="filter-priority">
+      <option value="">All priorities</option>
+      <option value="high">High</option>
+      <option value="med">Medium</option>
+      <option value="low">Low</option>
+    </select>
+    <select class="filter-select" id="filter-sort">
+      <option value="id">Sort: ID</option>
+      <option value="alpha">Sort: A–Z</option>
+      <option value="due">Sort: Due Date</option>
+      <option value="priority">Sort: Priority</option>
+    </select>
+    <button class="btn-add" id="btn-add-project">+ New Project</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main" id="main-content"></main>
+
+<!-- ADD PROJECT MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">New Project</span>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tab</label>
+          <select class="form-select" id="new-tab"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="new-cat"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Title</label>
+        <input class="form-input" type="text" id="new-title" placeholder="Project title">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="new-status">
+            <option value="queued">Queued</option>
+            <option value="active">Active</option>
+            <option value="review">In Review</option>
+            <option value="blocked">Blocked</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <select class="form-select" id="new-priority">
+            <option value="high">High</option>
+            <option value="med">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Due Date (optional)</label>
+        <input class="form-input" type="date" id="new-due">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Scope / Description</label>
+        <textarea class="form-textarea" id="new-scope" placeholder="What is this project about?"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">File Reference (optional)</label>
+        <input class="form-input" type="text" id="new-file" placeholder="SharePoint path, Teams link, etc.">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-cancel">Cancel</button>
+      <button class="btn-save" id="modal-save">Add Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon">💡</div>
+  <div class="toast-body">
+    <div class="toast-title" id="toast-title"></div>
+    <div class="toast-msg" id="toast-msg"></div>
+    <div class="toast-cmd" id="toast-cmd"></div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const TABS = [
+  { id: 'sec',  label: 'Security',    prefix: 'SEC', color: '#1a6b4a' },
+  { id: 'prc',  label: 'Procurement', prefix: 'PRC', color: '#7a3a00' },
+  { id: 'fac',  label: 'Facilities',  prefix: 'FAC', color: '#4a1a6b' },
+  { id: 'mun',  label: 'Municipal',   prefix: 'MUN', color: '#1a4a8a' },
+];
+
+// Completed archive: array of { project, originTab, originCatId, originCatTitle, completedDate }
+let COMPLETED = [];
+
+const STATUSES = {
+  queued:  'Queued',
+  active:  'Active',
+  review:  'In Review',
+  blocked: 'Blocked',
+  done:    'Done',
+};
+
+const STATUS_CYCLE = ['queued', 'active', 'review', 'blocked', 'done'];
+
+// Seed data
+let DATA = {
+  sec: {
+    categories: [
+      {
+        id: 'sec-cat-policy',
+        title: 'Policy & General Orders',
+        projects: [
+          {
+            id: 'SEC-001', title: 'GO: Patrol Procedures',
+            status: 'queued', priority: 'med', due: '',
+            scope: 'Foot patrol, vehicle patrol, and rounds documentation. Review overlap with GO 410.',
+            milestones: [
+              { text: 'Draft scope and IACLEA chapter mapping', done: false },
+              { text: 'First draft written', done: false },
+              { text: 'Review with Robert Taylor', done: false },
+              { text: 'Final approval', done: false },
+            ],
+            questions: [
+              { text: 'Does GO 410 partially cover this already?', done: false },
+              { text: 'Which IACLEA chapter applies — Ch. 5?', done: false },
+            ],
+            file: '',
+            notes: '',
+            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+          },
+          {
+            id: 'SEC-002', title: 'GO: Use of Force',
+            status: 'queued', priority: 'high', due: '',
+            scope: 'Force continuum, reporting requirements, supervisory review process. High IACLEA compliance weight (Chapter 4).',
+            milestones: [
+              { text: 'Verify no existing version in any form', done: false },
+              { text: 'Draft continuum policy', done: false },
+              { text: 'Draft reporting and review procedure', done: false },
+              { text: 'Legal/HR review', done: false },
+            ],
+            questions: [
+              { text: 'Does any form of this exist already?', done: false },
+              { text: 'Who handles the supervisory review?', done: false },
+            ],
+            file: '',
+            notes: '',
+            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+          },
+          {
+            id: 'SEC-003', title: 'GO: Evidence Handling / Chain of Custody',
+            status: 'queued', priority: 'high', due: '',
+            scope: 'Seizure, tagging, storage, Genetec Vault exports, G64x standard for evidentiary exports.',
+            milestones: [
+              { text: 'Map existing Vault/G64x workflow', done: false },
+              { text: 'Draft chain of custody procedure', done: false },
+              { text: 'Integrate with Report Writing GO 901', done: false },
+            ],
+            questions: [
+              { text: 'Who is authorized to export from Vault?', done: false },
+              { text: 'Where is physical evidence stored?', done: false },
+            ],
+            file: '',
+            notes: '',
+            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+          },
+          {
+            id: 'SEC-004', title: 'GO: Critical Incident / Active Threat Response',
+            status: 'queued', priority: 'high', due: '',
+            scope: 'Run/hide/defend framework, lockdown protocol, external comms, EOC activation. Companion to GO 301.',
+            milestones: [
+              { text: 'Review GO 301 Emergency Management linkage', done: false },
+              { text: 'Draft active threat protocol', done: false },
+              { text: 'Coordinate with facilities and communications', done: false },
+              { text: 'Tabletop exercise planned', done: false },
+            ],
+            questions: [
+              { text: 'Who activates the EOC?', done: false },
+              { text: 'What is the external comms chain (media, police)?', done: false },
+            ],
+            file: '',
+            notes: '',
+            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+          },
+          {
+            id: 'SEC-005', title: 'GO: Onboarding',
+            status: 'queued', priority: 'high', due: '',
+            scope: 'New hire orientation, credential issuance, field training entry, system access provisioning (Genetec, Schlage, SOC).',
+            milestones: [
+              { text: 'Map current informal onboarding steps', done: false },
+              { text: 'Draft checklist and GO', done: false },
+              { text: 'Link to FTO program entry point', done: false },
+            ],
+            questions: [
+              { text: 'Who initiates the onboarding process — HR or S&S?', done: false },
+              { text: 'What triggers FTO start date?', done: false },
+              { text: 'What system access is provisioned at day 1 vs. end of FTO?', done: false },
+            ],
+            file: '',
+            notes: '',
+            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+          },
+          {
+            id: 'SEC-006', title: 'GO: Offboarding',
+            status: 'queued', priority: 'high', due: '',
+            scope: 'Credential revocation, equipment return, Genetec/Schlage account deactivation, exit documentation. Covers voluntary and involuntary separation.',
+            milestones: [
+              { text: 'Define timeline for deactivation (same day? 24h?)', done: false },
+              { text: 'Draft checklist and GO', done: false },
+              { text: 'Define who verifies completion', done: false },
+            ],
+            questions: [
+              { text: 'Who notifies S&S of a departure — HR or supervisor?', done: false },
+              { text: 'Involuntary separation: is there an immediate lockout protocol?', done: false },
+            ],
+            file: '',
+            notes: '',
+            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+          },
+        ]
+      },
+      {
+        id: 'sec-cat-sop',
+        title: 'SOPs & Procedures',
+        projects: [
+          {
+            id: 'SEC-007', title: 'SOP: Nomenclature Standardization',
+            status: 'queued', priority: 'med', due: '',
+            scope: 'Naming conventions for cameras, intercoms, access control readers/doors, and file names (exports, reports, incidents) in Genetec Security Center and Schlage AD-400.',
+            milestones: [
+              { text: 'Audit existing naming in Genetec', done: false },
+              { text: 'Draft naming convention framework', done: false },
+              { text: 'Apply to all systems', done: false },
+            ],
+            questions: [
+              { text: 'Are there any existing informal conventions to formalize?', done: false },
+              { text: 'Building-floor-zone-sequence format?', done: false },
+            ],
+            file: '',
+            notes: '',
+            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+          },
+          {
+            id: 'SEC-008', title: 'SOP: BOLO / Suspended Student',
+            status: 'queued', priority: 'high', due: '',
+            scope: 'Authorization chain for BOLO publication, distribution list, Risk Management notification, faculty/staff communications. Quebec privacy law compliance (Act respecting Access to documents).',
+            milestones: [
+              { text: 'Define authorization chain', done: false },
+              { text: 'Draft distribution matrix', done: false },
+              { text: 'Legal/privacy review', done: false },
+              { text: 'Risk Management sign-off', done: false },
+            ],
+            questions: [
+              { text: 'Who authorizes a BOLO — Director only, or also coordinator?', done: false },
+              { text: 'Suspended student: automatic BOLO or separate risk decision?', done: false },
+              { text: 'Distribution: officers only, or also faculty/department heads?', done: false },
+            ],
+            file: '',
+            notes: '',
+            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+          },
+          {
+            id: 'SEC-009', title: 'SOP: Protection Detail',
+            status: 'queued', priority: 'low', due: '',
+            scope: 'VIP escort and protection procedures for visiting dignitaries, board members, external speakers.',
+            milestones: [
+              { text: 'Clarify scope (VIP only vs. internal threat scenarios)', done: false },
+              { text: 'Draft protocol', done: false },
+            ],
+            questions: [
+              { text: 'Does this also cover internal threat scenarios (e.g. restraining order)?', done: false },
+              { text: 'Who requests a protection detail — VP level or above?', done: false },
+            ],
+            file: '',
+            notes: '',
+            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+          },
+        ]
+      }
+    ]
+  },
+  prc: { categories: [
+    { id: 'prc-cat-active', title: 'Active Procurements', projects: [] },
+    { id: 'prc-cat-board', title: 'Board Motions', projects: [] },
+  ]},
+  fac: { categories: [
+    { id: 'fac-cat-capital', title: 'Capital Projects', projects: [] },
+  ]},
+  mun: { categories: [
+    { id: 'mun-cat-council', title: 'Council & CCU', projects: [] },
+  ]},
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let activeTab = 'sec';
+let filterStatus = '';
+let filterPriority = '';
+let filterSort = 'id';
+let searchQuery = '';
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function today() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  const dt = new Date(d + 'T00:00:00');
+  return dt.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function isOverdue(d) {
+  if (!d) return false;
+  return d < today();
+}
+
+function getNextId(tabId) {
+  const tab = TABS.find(t => t.id === tabId);
+  const prefix = tab.prefix;
+  let max = 0;
+  DATA[tabId].categories.forEach(cat => {
+    cat.projects.forEach(p => {
+      const n = parseInt(p.id.split('-')[1]);
+      if (n > max) max = n;
+    });
+  });
+  // Also check other tabs for same prefix (shouldn't conflict but just in case)
+  return `${prefix}-${String(max + 1).padStart(3, '0')}`;
+}
+
+function updateStats() {
+  let total = 0, active = 0, blocked = 0, done = 0;
+  Object.keys(DATA).forEach(tabId => {
+    DATA[tabId].categories.forEach(cat => {
+      cat.projects.forEach(p => {
+        total++;
+        if (p.status === 'active' || p.status === 'review') active++;
+        if (p.status === 'blocked') blocked++;
+        if (p.status === 'done') done++;
+      });
+    });
+  });
+  done += COMPLETED.length;
+  document.getElementById('stat-total').textContent = total + COMPLETED.length;
+  document.getElementById('stat-active').textContent = active;
+  document.getElementById('stat-blocked').textContent = blocked;
+  document.getElementById('stat-done').textContent = done;
+
+  // Tab counts
+  TABS.forEach(tab => {
+    let cnt = 0;
+    DATA[tab.id].categories.forEach(cat => { cnt += cat.projects.length; });
+    const el = document.getElementById(`tab-count-${tab.id}`);
+    if (el) el.textContent = cnt;
+  });
+  const compEl = document.getElementById('tab-count-completed');
+  if (compEl) compEl.textContent = COMPLETED.length;
+}
+
+// ── RENDER TABS ───────────────────────────────────────────────────────────
+function renderTabs() {
+  const container = document.getElementById('tabs-inner');
+  container.innerHTML = '';
+  TABS.forEach(tab => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (tab.id === activeTab ? ' active' : '');
+    btn.dataset.tab = tab.id;
+    let cnt = 0;
+    DATA[tab.id].categories.forEach(c => cnt += c.projects.length);
+    btn.innerHTML = `${tab.label} <span class="tab-count" id="tab-count-${tab.id}">${cnt}</span>`;
+    btn.addEventListener('click', () => { activeTab = tab.id; renderAll(); });
+    container.appendChild(btn);
+  });
+
+  // Completed tab — always last
+  const compBtn = document.createElement('button');
+  compBtn.className = 'tab-btn' + (activeTab === 'completed' ? ' active' : '');
+  compBtn.style.marginLeft = 'auto';
+  compBtn.style.borderLeft = '1px solid var(--border)';
+  compBtn.style.color = activeTab === 'completed' ? '' : 'var(--status-done)';
+  compBtn.innerHTML = `✓ Completed <span class="tab-count" id="tab-count-completed" style="background:var(--status-done-bg);color:var(--status-done);border-color:var(--status-done-bg)">${COMPLETED.length}</span>`;
+  compBtn.addEventListener('click', () => { activeTab = 'completed'; renderAll(); });
+  container.appendChild(compBtn);
+}
+
+// ── RENDER MAIN ───────────────────────────────────────────────────────────
+function getFilteredProjects(projects) {
+  let list = [...projects];
+  if (filterStatus) list = list.filter(p => p.status === filterStatus);
+  if (filterPriority) list = list.filter(p => p.priority === filterPriority);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(p =>
+      p.id.toLowerCase().includes(q) ||
+      p.title.toLowerCase().includes(q) ||
+      (p.scope || '').toLowerCase().includes(q) ||
+      (p.notes || '').toLowerCase().includes(q)
+    );
+  }
+  const PRIO = { high: 0, med: 1, low: 2 };
+  if (filterSort === 'alpha') list.sort((a, b) => a.title.localeCompare(b.title));
+  else if (filterSort === 'due') list.sort((a, b) => (a.due || '9999') < (b.due || '9999') ? -1 : 1);
+  else if (filterSort === 'priority') list.sort((a, b) => PRIO[a.priority] - PRIO[b.priority]);
+  else list.sort((a, b) => a.id < b.id ? -1 : 1);
+  return list;
+}
+
+function renderMilestones(milestones, projectId, catId) {
+  if (!milestones || milestones.length === 0) return '<span style="color:var(--text-muted);font-size:12px">None added yet.</span>';
+  return `<ul class="milestone-list">${milestones.map((m, i) => `
+    <li class="milestone-item ${m.done ? 'done-ms' : ''}">
+      <input type="checkbox" ${m.done ? 'checked' : ''}
+        data-project="${projectId}" data-cat="${catId}" data-ms="${i}" onchange="toggleMilestone(this)">
+      <span>${m.text}</span>
+    </li>`).join('')}</ul>`;
+}
+
+function renderQuestions(questions, projectId, catId) {
+  if (!questions || questions.length === 0) return '<span style="color:var(--text-muted);font-size:12px">None added yet.</span>';
+  return `<ul class="question-list">${questions.map((q, i) => `
+    <li class="question-item ${q.done ? 'resolved' : ''}">
+      <input type="checkbox" ${q.done ? 'checked' : ''}
+        data-project="${projectId}" data-cat="${catId}" data-q="${i}" onchange="toggleQuestion(this)">
+      <span>${q.text}</span>
+    </li>`).join('')}</ul>`;
+}
+
+function renderChangelog(changelog) {
+  if (!changelog || changelog.length === 0) return '<span style="color:var(--text-muted);font-size:12px">No history yet.</span>';
+  return `<ul class="changelog">${[...changelog].reverse().map(e =>
+    `<li class="cl-entry"><span class="cl-date">${e.date}</span><span class="cl-text">${e.text}</span></li>`
+  ).join('')}</ul>`;
+}
+
+function renderMiniMilestones(milestones) {
+  if (!milestones || milestones.length === 0) return '';
+  const dots = milestones.map(m => `<div class="ms-dot ${m.done ? 'done' : ''}"></div>`).join('');
+  return `<div class="milestones-mini" title="${milestones.filter(m=>m.done).length}/${milestones.length} milestones">${dots}</div>`;
+}
+
+function renderProject(p, catId) {
+  const doneMs = (p.milestones || []).filter(m => m.done).length;
+  const totalMs = (p.milestones || []).length;
+
+  return `<div class="project-card ${p.status}" id="card-${p.id}" data-project="${p.id}" data-cat="${catId}">
+    <div class="card-top" onclick="toggleCard('${p.id}')">
+      <span class="project-id">${p.id}</span>
+      <div class="priority-pip ${p.priority}" title="Priority: ${p.priority}"></div>
+      <span class="project-title">${p.title}</span>
+      ${renderMiniMilestones(p.milestones)}
+      ${p.due ? `<span class="due-badge ${isOverdue(p.due) && p.status !== 'done' ? 'overdue' : ''}">${isOverdue(p.due) && p.status !== 'done' ? '⚠ ' : ''}${fmtDate(p.due)}</span>` : ''}
+      <button class="status-badge ${p.status}" onclick="cycleStatus(event, '${p.id}', '${catId}')">${STATUSES[p.status]}</button>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="card-body">
+      <div class="card-sections">
+        <div class="card-section">
+          <div class="section-label">Scope</div>
+          <div class="section-text">${p.scope || '<em style="color:var(--text-muted)">No scope defined.</em>'}</div>
+        </div>
+        <div class="card-section">
+          <div class="section-label">Milestones (${doneMs}/${totalMs})</div>
+          ${renderMilestones(p.milestones, p.id, catId)}
+        </div>
+        <div class="card-section">
+          <div class="section-label">Questions to Resolve</div>
+          ${renderQuestions(p.questions, p.id, catId)}
+        </div>
+        <div class="card-section">
+          <div class="section-label">File Reference</div>
+          ${p.file ? `<span class="file-ref">📁 ${p.file}</span>` : '<span style="color:var(--text-muted);font-size:12px">No file linked.</span>'}
+        </div>
+        <div class="card-section full-width">
+          <div class="section-label">Notes</div>
+          <textarea class="notes-area" placeholder="Brain dump — notes, context, next steps…"
+            data-project="${p.id}" data-cat="${catId}"
+            onchange="saveNotes(this)">${p.notes || ''}</textarea>
+        </div>
+        <div class="card-section full-width">
+          <div class="section-label">Changelog</div>
+          ${renderChangelog(p.changelog)}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCompleted(main) {
+  if (COMPLETED.length === 0) {
+    main.innerHTML = `
+      <div class="completed-empty">
+        <div class="icon">🗄</div>
+        <p>No completed projects yet.</p>
+        <small>When you mark a project Done, it automatically archives here.</small>
+      </div>`;
+    return;
+  }
+
+  // Group by year, then by origin tab
+  const byYear = {};
+  COMPLETED.forEach(entry => {
+    const year = entry.completedDate.split('-')[0];
+    if (!byYear[year]) byYear[year] = {};
+    const tabLabel = entry.originTabLabel;
+    if (!byYear[year][tabLabel]) byYear[year][tabLabel] = [];
+    byYear[year][tabLabel].push(entry);
+  });
+
+  // Apply search/filter
+  const years = Object.keys(byYear).sort((a, b) => b - a);
+
+  const header = document.createElement('div');
+  header.className = 'completed-header';
+  header.innerHTML = `
+    <div>
+      <div class="completed-title">Completed Projects</div>
+      <div class="completed-meta">${COMPLETED.length} item${COMPLETED.length !== 1 ? 's' : ''} archived · Click "Restore" to send back for review</div>
+    </div>`;
+  main.appendChild(header);
+
+  years.forEach(year => {
+    const yearDiv = document.createElement('div');
+    yearDiv.className = 'year-group';
+    yearDiv.innerHTML = `<div class="year-label">${year}</div>`;
+
+    Object.keys(byYear[year]).forEach(tabLabel => {
+      const originDiv = document.createElement('div');
+      originDiv.className = 'origin-group';
+      originDiv.innerHTML = `<div class="origin-label">${tabLabel}</div>`;
+
+      const list = document.createElement('div');
+      list.className = 'projects-list';
+
+      byYear[year][tabLabel].forEach(entry => {
+        const p = entry.project;
+
+        // Apply search filter on completed tab
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          if (!p.id.toLowerCase().includes(q) && !p.title.toLowerCase().includes(q) && !(p.scope||'').toLowerCase().includes(q)) return;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'project-card done';
+        card.id = `card-${p.id}`;
+
+        const doneMs = (p.milestones||[]).filter(m=>m.done).length;
+        const totalMs = (p.milestones||[]).length;
+
+        card.innerHTML = `
+          <div class="card-top" onclick="toggleCard('${p.id}')">
+            <span class="project-id">${p.id}</span>
+            <div class="priority-pip ${p.priority}"></div>
+            <span class="project-title">${p.title}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted)">Completed ${fmtDate(entry.completedDate)}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);background:var(--surface2);padding:2px 8px;border-radius:4px;border:1px solid var(--border)">${doneMs}/${totalMs} milestones</span>
+            <button class="btn-restore" onclick="event.stopPropagation();restoreProject('${p.id}')">↩ Restore</button>
+            <span class="chevron">▶</span>
+          </div>
+          <div class="card-body">
+            <div class="card-sections">
+              <div class="card-section">
+                <div class="section-label">Scope</div>
+                <div class="section-text">${p.scope || '<em style="color:var(--text-muted)">No scope defined.</em>'}</div>
+              </div>
+              <div class="card-section">
+                <div class="section-label">Milestones</div>
+                ${renderMilestones(p.milestones, p.id, entry.originCatId)}
+              </div>
+              <div class="card-section">
+                <div class="section-label">Questions Resolved</div>
+                ${renderQuestions(p.questions, p.id, entry.originCatId)}
+              </div>
+              <div class="card-section">
+                <div class="section-label">File Reference</div>
+                ${p.file ? `<span class="file-ref">📁 ${p.file}</span>` : '<span style="color:var(--text-muted);font-size:12px">No file linked.</span>'}
+              </div>
+              <div class="card-section full-width">
+                <div class="section-label">Notes</div>
+                <div class="section-text" style="white-space:pre-wrap">${p.notes || '<em style="color:var(--text-muted)">No notes.</em>'}</div>
+              </div>
+              <div class="card-section full-width">
+                <div class="section-label">Changelog</div>
+                ${renderChangelog(p.changelog)}
+              </div>
+            </div>
+          </div>`;
+
+        list.appendChild(card);
+
+        if (expandedCards.has(p.id)) card.classList.add('expanded');
+      });
+
+      originDiv.appendChild(list);
+      yearDiv.appendChild(originDiv);
+    });
+
+    main.appendChild(yearDiv);
+  });
+}
+
+function renderContent() {
+  const main = document.getElementById('main-content');
+  main.innerHTML = '';
+
+  // ── COMPLETED TAB ──────────────────────────────────────────────────────
+  if (activeTab === 'completed') {
+    renderCompleted(main);
+    return;
+  }
+
+  const tabData = DATA[activeTab];
+  if (!tabData) return;
+
+  let hasAny = false;
+
+  tabData.categories.forEach(cat => {
+    const filtered = getFilteredProjects(cat.projects);
+
+    const catDiv = document.createElement('div');
+    catDiv.className = 'category';
+    catDiv.id = `cat-${cat.id}`;
+
+    const doneCount = cat.projects.filter(p => p.status === 'done').length;
+    const total = cat.projects.length;
+    const pct = total > 0 ? Math.round((doneCount / total) * 100) : 0;
+
+    catDiv.innerHTML = `
+      <div class="cat-header">
+        <span class="cat-title">${cat.title}</span>
+        <div class="cat-progress-wrap">
+          <div class="cat-progress-bar" style="width:${pct}%"></div>
+        </div>
+        <span class="cat-pct">${pct}%</span>
+        <span class="cat-count">${total}</span>
+      </div>
+      <div class="projects-list" id="list-${cat.id}">
+        ${filtered.length > 0
+          ? filtered.map(p => renderProject(p, cat.id)).join('')
+          : `<div class="empty-state"><div style="font-size:28px">📋</div><p>No projects match your filters.</p></div>`}
+      </div>`;
+
+    if (filtered.length > 0 || cat.projects.length > 0) hasAny = true;
+    main.appendChild(catDiv);
+
+    // Restore expanded state
+    filtered.forEach(p => {
+      if (expandedCards.has(p.id)) {
+        const card = document.getElementById(`card-${p.id}`);
+        if (card) card.classList.add('expanded');
+      }
+    });
+  });
+
+  if (!hasAny) {
+    main.innerHTML = `<div class="empty-state"><div style="font-size:48px">🗂</div><p>No projects yet in this area.<br>Use "+ New Project" to add one.</p></div>`;
+  }
+}
+
+// ── EXPANDED CARDS ────────────────────────────────────────────────────────
+const expandedCards = new Set();
+
+function toggleCard(projectId) {
+  const card = document.getElementById(`card-${projectId}`);
+  if (!card) return;
+  card.classList.toggle('expanded');
+  if (card.classList.contains('expanded')) expandedCards.add(projectId);
+  else expandedCards.delete(projectId);
+}
+
+// ── INTERACTIONS ──────────────────────────────────────────────────────────
+// ── TOAST ─────────────────────────────────────────────────────────────────
+let toastTimer = null;
+
+function showToast(title, msg, cmd) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-title').textContent = title;
+  document.getElementById('toast-msg').textContent = msg;
+  const cmdEl = document.getElementById('toast-cmd');
+  if (cmd) { cmdEl.textContent = cmd; cmdEl.style.display = 'inline-block'; }
+  else { cmdEl.style.display = 'none'; }
+  toast.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 5000);
+}
+
+function cycleStatus(e, projectId, catId) {
+  e.stopPropagation();
+  const project = findProject(projectId, catId);
+  if (!project) return;
+  const idx = STATUS_CYCLE.indexOf(project.status);
+  const nextStatus = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
+  project.status = nextStatus;
+  project.changelog.push({ date: today(), text: `Status changed to "${STATUSES[nextStatus]}".` });
+
+  showToast(
+    '📋 Preview only — not saved',
+    `Status shown as "${STATUSES[nextStatus]}" in this session only. To make it permanent:`,
+    `"${projectId} status → ${STATUSES[nextStatus]}"`
+  );
+
+  if (nextStatus === 'done') {
+    archiveProject(project, catId);
+  }
+  renderAll();
+}
+
+function toggleMilestone(el) {
+  const project = findProject(el.dataset.project, el.dataset.cat);
+  if (!project) return;
+  const ms = project.milestones[parseInt(el.dataset.ms)];
+  ms.done = el.checked;
+  project.changelog.push({ date: today(), text: `Milestone "${ms.text}" marked ${ms.done ? 'done' : 'incomplete'}.` });
+
+  showToast(
+    '📋 Preview only — not saved',
+    `Milestone noted. To commit this change permanently:`,
+    `"${el.dataset.project} — milestone '${ms.text}' is ${ms.done ? 'done' : 'incomplete'}"`
+  );
+  renderAll();
+}
+
+function toggleQuestion(el) {
+  const project = findProject(el.dataset.project, el.dataset.cat);
+  if (!project) return;
+  const q = project.questions[parseInt(el.dataset.q)];
+  q.done = el.checked;
+  project.changelog.push({ date: today(), text: `Question "${q.text}" marked ${q.done ? 'resolved' : 'open'}.` });
+
+  showToast(
+    '📋 Preview only — not saved',
+    `Question noted. To commit this change permanently:`,
+    `"${el.dataset.project} — question '${q.text}' is ${q.done ? 'resolved' : 'open'}"`
+  );
+  renderAll();
+}
+
+function saveNotes(el) {
+  const project = findProject(el.dataset.project, el.dataset.cat);
+  if (!project) return;
+  project.notes = el.value;
+
+  showToast(
+    '📋 Scratchpad only — not saved',
+    'Your note is visible this session only. When ready to commit it permanently, paste it to Claude Code:',
+    `"Update ${el.dataset.project} notes: [your text]"`
+  );
+}
+
+function archiveProject(project, catId) {
+  let originTab = 'sec', originCatTitle = '';
+  Object.keys(DATA).forEach(tabId => {
+    DATA[tabId].categories.forEach(cat => {
+      if (cat.id === catId) { originTab = tabId; originCatTitle = cat.title; }
+    });
+  });
+  const tab = TABS.find(t => t.id === originTab);
+  COMPLETED.push({
+    project,
+    originTab,
+    originTabLabel: tab ? tab.label : originTab,
+    originCatId: catId,
+    originCatTitle,
+    completedDate: today(),
+  });
+}
+
+function restoreProject(projectId) {
+  const entry = COMPLETED.find(e => e.project.id === projectId);
+  if (!entry) return;
+  entry.project.status = 'queued';
+  entry.project.changelog.push({ date: today(), text: 'Restored from Completed archive for review.' });
+  COMPLETED = COMPLETED.filter(e => e.project.id !== projectId);
+  activeTab = entry.originTab;
+  renderAll();
+}
+
+function findProject(projectId, catId) {
+  let found = null;
+  Object.keys(DATA).forEach(tabId => {
+    DATA[tabId].categories.forEach(cat => {
+      if (catId && cat.id !== catId) return;
+      cat.projects.forEach(p => {
+        if (p.id === projectId) found = p;
+      });
+    });
+  });
+  return found;
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────
+function openModal() {
+  // Populate tab select
+  const tabSel = document.getElementById('new-tab');
+  tabSel.innerHTML = TABS.map(t => `<option value="${t.id}">${t.label}</option>`).join('');
+  tabSel.value = activeTab;
+  updateCatSelect();
+  tabSel.addEventListener('change', updateCatSelect);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function updateCatSelect() {
+  const tabId = document.getElementById('new-tab').value;
+  const catSel = document.getElementById('new-cat');
+  catSel.innerHTML = DATA[tabId].categories.map(c =>
+    `<option value="${c.id}">${c.title}</option>`
+  ).join('');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function saveNewProject() {
+  const tabId = document.getElementById('new-tab').value;
+  const catId = document.getElementById('new-cat').value;
+  const title = document.getElementById('new-title').value.trim();
+  if (!title) { alert('Please enter a project title.'); return; }
+
+  const cat = DATA[tabId].categories.find(c => c.id === catId);
+  if (!cat) return;
+
+  const newProject = {
+    id: getNextId(tabId),
+    title,
+    status: document.getElementById('new-status').value,
+    priority: document.getElementById('new-priority').value,
+    due: document.getElementById('new-due').value,
+    scope: document.getElementById('new-scope').value.trim(),
+    milestones: [],
+    questions: [],
+    file: document.getElementById('new-file').value.trim(),
+    notes: '',
+    changelog: [{ date: today(), text: 'Project created.' }],
+  };
+
+  cat.projects.push(newProject);
+  closeModal();
+  activeTab = tabId;
+  renderAll();
+}
+
+// ── FILTERS ───────────────────────────────────────────────────────────────
+document.getElementById('filter-status').addEventListener('change', e => {
+  filterStatus = e.target.value; renderAll();
+});
+document.getElementById('filter-priority').addEventListener('change', e => {
+  filterPriority = e.target.value; renderAll();
+});
+document.getElementById('filter-sort').addEventListener('change', e => {
+  filterSort = e.target.value; renderAll();
+});
+document.getElementById('search-input').addEventListener('input', e => {
+  searchQuery = e.target.value; renderAll();
+});
+
+document.getElementById('btn-add-project').addEventListener('click', openModal);
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-cancel').addEventListener('click', closeModal);
+document.getElementById('modal-save').addEventListener('click', saveNewProject);
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+});
+
+// ── RENDER ALL ────────────────────────────────────────────────────────────
+function renderAll() {
+  renderTabs();
+  renderContent();
+  updateStats();
+}
+
+renderAll();
+</script>
+</body>
+</html>
