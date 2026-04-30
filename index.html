@@ -1296,10 +1296,11 @@ let DATA = {
           {
             id: 'SEC-012', title: 'Access List — Student Boycott May 1st',
             status: 'review', priority: 'high', due: '2026-04-30',
-            scope: 'Prepare access list for the student boycott of May 1st. List covers approximately 25 categories. Distribution to officers pending approval.',
+            scope: 'Prepare access list for the student boycott of May 1st. List covers approximately 25 categories. Sent to Facilities Department for review. Distribution to officers pending approval.',
             milestones: [
               { text: 'Draft access list', done: true },
-              { text: 'Review and approve', done: false },
+              { text: 'Sent to Facilities Department for review', done: true },
+              { text: 'Awaiting approval', done: false },
               { text: 'Distribute to officers', done: false },
             ],
             questions: [],
@@ -1308,6 +1309,7 @@ let DATA = {
             changelog: [
               { date: '2026-04-29', text: 'Item created.' },
               { date: '2026-04-29', text: 'Draft completed. Status set to In Review — awaiting approval before distribution.' },
+              { date: '2026-04-30', text: 'Sent to Facilities Department for review.' },
             ],
           },
           {
@@ -1336,7 +1338,22 @@ let DATA = {
     { id: 'fac-cat-capital', title: 'Capital Projects', projects: [] },
   ]},
   mun: { categories: [
-    { id: 'mun-cat-council', title: 'Council & CCU', projects: [] },
+    { id: 'mun-cat-council', title: 'Council & CCU', projects: [
+      {
+        id: 'MUN-001', title: 'PAFIRSPA — Review Plans and Comment',
+        status: 'active', priority: 'med', due: '',
+        scope: 'Review the PAFIRSPA plans, prepare comments, and send back to the Mayor.',
+        milestones: [
+          { text: 'Review PAFIRSPA plans', done: false },
+          { text: 'Prepare comments', done: false },
+          { text: 'Send comments back to the Mayor', done: false },
+        ],
+        questions: [],
+        file: '',
+        notes: '',
+        changelog: [{ date: '2026-04-30', text: 'Item created.' }],
+      },
+    ]},
   ]},
 };
 
