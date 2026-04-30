@@ -1351,14 +1351,14 @@ let DATA = {
     { id: 'prc-cat-active', title: 'Active Procurements', projects: [
       {
         id: 'PRC-001', title: 'Answer Verification — AMP',
-        status: 'review', priority: 'med', due: '',
+        status: 'done', priority: 'med', due: '',
         scope: 'Prepare and submit answer verification to AMP. Requires RARC meeting before finalising.',
         milestones: [
           { text: 'Draft first response', done: true },
           { text: 'Meeting with RARC', done: true },
           { text: 'Finalise draft', done: true },
           { text: 'Final draft submitted to RARC', done: true },
-          { text: 'Submit to AMP for response', done: false },
+          { text: 'AMP response finalised and sent by RARC to AMP', done: true },
         ],
         questions: [],
         file: '',
@@ -1367,6 +1367,7 @@ let DATA = {
           { date: '2026-04-30', text: 'Item created.' },
           { date: '2026-04-30', text: 'First draft completed. RARC meeting completed. Moving to final draft.' },
           { date: '2026-04-30', text: 'Final draft completed and submitted to RARC.' },
+          { date: '2026-04-30', text: 'AMP response finalised. Sent by RARC to AMP. Project complete.' },
         ],
       },
       {
