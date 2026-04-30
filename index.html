@@ -1351,18 +1351,21 @@ let DATA = {
     { id: 'prc-cat-active', title: 'Active Procurements', projects: [
       {
         id: 'PRC-001', title: 'Answer Verification — AMP',
-        status: 'queued', priority: 'med', due: '',
+        status: 'active', priority: 'med', due: '',
         scope: 'Prepare and submit answer verification to AMP. Requires RARC meeting before finalising.',
         milestones: [
-          { text: 'Draft first response', done: false },
-          { text: 'Meeting with RARC', done: false },
+          { text: 'Draft first response', done: true },
+          { text: 'Meeting with RARC', done: true },
           { text: 'Finalise draft', done: false },
           { text: 'Submit to AMP for response', done: false },
         ],
         questions: [],
         file: '',
         notes: '',
-        changelog: [{ date: '2026-04-30', text: 'Item created.' }],
+        changelog: [
+          { date: '2026-04-30', text: 'Item created.' },
+          { date: '2026-04-30', text: 'First draft completed. RARC meeting completed. Moving to final draft.' },
+        ],
       },
       {
         id: 'PRC-002', title: 'Purchase Request — Rendez-vous annuel des francophones',
