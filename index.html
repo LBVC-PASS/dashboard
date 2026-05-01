@@ -809,6 +809,18 @@ body {
   padding-left: 8px;
 }
 
+.completed-date-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--status-done);
+  background: var(--status-done-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--status-done-bg);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .btn-restore {
   font-family: 'DM Mono', monospace;
   font-size: 9px;
@@ -1670,7 +1682,7 @@ function renderCompleted(main) {
             <span class="project-id">${p.id}</span>
             <div class="priority-pip ${p.priority}"></div>
             <span class="project-title">${p.title}</span>
-            <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted)">Completed ${fmtDate(entry.completedDate)}</span>
+            <span class="completed-date-badge">✓ ${fmtDate(entry.completedDate)}</span>
             <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);background:var(--surface2);padding:2px 8px;border-radius:4px;border:1px solid var(--border)">${doneMs}/${totalMs} milestones</span>
             <button class="btn-restore" onclick="event.stopPropagation();restoreProject('${p.id}')">↩ Restore</button>
             <span class="chevron">▶</span>
@@ -1865,7 +1877,7 @@ function saveNotes(el) {
   );
 }
 
-function archiveProject(project, catId) {
+function archiveProject(project, catId, completedDate) {
   let originTab = 'sec', originCatTitle = '';
   Object.keys(DATA).forEach(tabId => {
     DATA[tabId].categories.forEach(cat => {
@@ -1879,7 +1891,22 @@ function archiveProject(project, catId) {
     originTabLabel: tab ? tab.label : originTab,
     originCatId: catId,
     originCatTitle,
-    completedDate: today(),
+    completedDate: completedDate || today(),
+  });
+}
+
+function initCompletedProjects() {
+  Object.keys(DATA).forEach(tabId => {
+    DATA[tabId].categories.forEach(cat => {
+      const done = cat.projects.filter(p => p.status === 'done');
+      done.forEach(p => {
+        const lastEntry = p.changelog && p.changelog.length > 0
+          ? p.changelog[p.changelog.length - 1].date
+          : today();
+        archiveProject(p, cat.id, lastEntry);
+      });
+      cat.projects = cat.projects.filter(p => p.status !== 'done');
+    });
   });
 }
 
@@ -1987,6 +2014,7 @@ function renderAll() {
   updateStats();
 }
 
+initCompletedProjects();
 renderAll();
 </script>
 </body>
