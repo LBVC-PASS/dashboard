@@ -1409,17 +1409,20 @@ let DATA = {
     { id: 'mun-cat-council', title: 'Council & CCU', projects: [
       {
         id: 'MUN-001', title: 'PAFIRSPA — Review Plans and Comment',
-        status: 'active', priority: 'med', due: '',
-        scope: 'Review the PAFIRSPA plans, prepare comments, and send back to the Mayor.',
+        status: 'done', priority: 'med', due: '',
+        scope: 'Review the PAFIRSPA plans, prepare comments, and send back to the Mayor. Comments sent by email.',
         milestones: [
-          { text: 'Review PAFIRSPA plans', done: false },
-          { text: 'Prepare comments', done: false },
-          { text: 'Send comments back to the Mayor', done: false },
+          { text: 'Review PAFIRSPA plans', done: true },
+          { text: 'Prepare comments', done: true },
+          { text: 'Comments sent to the Mayor by email', done: true },
         ],
         questions: [],
         file: '',
         notes: '',
-        changelog: [{ date: '2026-04-30', text: 'Item created.' }],
+        changelog: [
+          { date: '2026-04-30', text: 'Item created.' },
+          { date: '2026-04-30', text: 'Plans reviewed, comments prepared and sent to the Mayor by email. Project complete.' },
+        ],
       },
     ]},
   ]},
