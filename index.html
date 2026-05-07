@@ -1208,10 +1208,12 @@ let DATA = {
           {
             id: 'SEC-019', title: 'Access Control Policy',
             status: 'active', priority: 'high', due: '',
-            scope: 'Develop and finalize the institutional access control policy. Draft complete — currently moving through review and approval cycle.',
+            scope: 'Develop and finalize the institutional access control policy. Draft reviewed and approved by Corporate Affairs. Sent to Director of Facilities to forward to MEC.',
             milestones: [
-              { text: 'Draft access control policy', done: true },
-              { text: 'Send to MEC for review and approval', done: false },
+              { text: 'Draft access control policy', done: true, doneDate: '' },
+              { text: 'Reviewed and approved by Corporate Affairs', done: true, doneDate: '2026-03-13' },
+              { text: 'Sent to Director of Facilities to forward to MEC', done: true, doneDate: '2026-04-23' },
+              { text: 'MEC review and approval', done: false },
               { text: 'Incorporate MEC feedback', done: false },
               { text: 'Final approval', done: false },
               { text: 'Implement and communicate policy', done: false },
@@ -1219,7 +1221,11 @@ let DATA = {
             questions: [],
             file: '',
             notes: '',
-            changelog: [{ date: '2026-05-07', text: 'Item created. Draft complete — next step is sending to MEC for review and approval.' }],
+            changelog: [
+              { date: '2026-03-13', text: 'Reviewed and approved by Corporate Affairs.' },
+              { date: '2026-04-23', text: 'Sent to Director of Facilities to forward to MEC.' },
+              { date: '2026-05-07', text: 'Item added to dashboard.' },
+            ],
           },
         ]
       },
@@ -1693,6 +1699,7 @@ function renderMilestones(milestones, projectId, catId) {
       <input type="checkbox" ${m.done ? 'checked' : ''}
         data-project="${projectId}" data-cat="${catId}" data-ms="${i}" onchange="toggleMilestone(this)">
       <span>${m.text}</span>
+      ${m.done && m.doneDate ? `<span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);margin-left:auto;white-space:nowrap">${fmtDate(m.doneDate)}</span>` : ''}
     </li>`).join('')}</ul>`;
 }
 
@@ -1991,6 +1998,7 @@ function toggleMilestone(el) {
   if (!project) return;
   const ms = project.milestones[parseInt(el.dataset.ms)];
   ms.done = el.checked;
+  ms.doneDate = ms.done ? today() : null;
   project.changelog.push({ date: today(), text: `Milestone "${ms.text}" marked ${ms.done ? 'done' : 'incomplete'}.` });
 
   showToast(
