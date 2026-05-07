@@ -1460,6 +1460,25 @@ let DATA = {
             notes: '',
             changelog: [{ date: '2026-05-07', text: 'Item created.' }],
           },
+          {
+            id: 'SEC-029', title: 'Access Control — Cardholder Delete Privilege Fix',
+            status: 'done', priority: 'high', due: '',
+            scope: 'Identified a privilege flaw where door admins, cards management, and prevention officer groups had rights to delete cardholders from the system. Rights removed from all three groups. Only the admin group now has authority to delete cardholders.',
+            milestones: [
+              { text: 'Identified privilege flaw across three user groups', done: true, doneDate: '2026-05-07' },
+              { text: 'Removed delete cardholder rights from door admins group', done: true, doneDate: '2026-05-07' },
+              { text: 'Removed delete cardholder rights from cards management group', done: true, doneDate: '2026-05-07' },
+              { text: 'Removed delete cardholder rights from prevention officer group', done: true, doneDate: '2026-05-07' },
+              { text: 'Verified admin group retains sole delete cardholder authority', done: true, doneDate: '2026-05-07' },
+            ],
+            questions: [],
+            file: '',
+            notes: '',
+            changelog: [
+              { date: '2026-05-07', text: 'Flaw identified: door admins, cards management, and prevention officer groups had delete cardholder rights.' },
+              { date: '2026-05-07', text: 'Rights removed from all three groups. Admin group is now the sole authority for deleting cardholders. Resolved.' },
+            ],
+          },
         ]
       },
       {
