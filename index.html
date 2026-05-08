@@ -928,7 +928,83 @@ body {
   body { font-size: 11px; }
 }
 
-/* ── RESPONSIVE ───────────────────────────────── */
+/* ── LOGIN GATE ───────────────────────────────── */
+.gate-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.gate-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.gate-logo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.gate-logo-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.gate-logo-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.gate-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gate-error {
+  font-size: 12px;
+  color: var(--status-blocked);
+  display: none;
+  text-align: center;
+}
+
+.gate-error.show { display: block; }
+
+.btn-gate {
+  width: 100%;
+  padding: 10px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-gate:hover { background: #153d72; }
+
 @media (max-width: 640px) {
   .site-header, .tabs-bar, .toolbar { padding-left: 16px; padding-right: 16px; }
   .main { padding: 16px; }
@@ -940,6 +1016,22 @@ body {
 </style>
 </head>
 <body>
+
+<!-- LOGIN GATE -->
+<div class="gate-overlay" id="gate-overlay">
+  <div class="gate-card">
+    <div class="gate-logo">
+      <span class="gate-logo-title">S&S Operations</span>
+      <span class="gate-logo-sub">Secure Access</span>
+    </div>
+    <div class="gate-fields">
+      <input class="form-input" type="text" id="gate-user" placeholder="Username" autocomplete="username">
+      <input class="form-input" type="password" id="gate-pass" placeholder="Password" autocomplete="current-password">
+    </div>
+    <div class="gate-error" id="gate-error">Invalid credentials. Please try again.</div>
+    <button class="btn-gate" id="gate-btn">Sign In</button>
+  </div>
+</div>
 
 <!-- HEADER -->
 <header class="site-header">
@@ -1070,6 +1162,35 @@ body {
 </div>
 
 <script>
+// ── LOGIN GATE ────────────────────────────────────────────────────────────
+(function() {
+  const GATE_USER = '1234';
+  const GATE_PASS = '456';
+  const overlay = document.getElementById('gate-overlay');
+
+  if (sessionStorage.getItem('auth') === 'ok') {
+    overlay.style.display = 'none';
+    return;
+  }
+
+  function attempt() {
+    const u = document.getElementById('gate-user').value;
+    const p = document.getElementById('gate-pass').value;
+    if (u === GATE_USER && p === GATE_PASS) {
+      sessionStorage.setItem('auth', 'ok');
+      overlay.style.display = 'none';
+    } else {
+      document.getElementById('gate-error').classList.add('show');
+      document.getElementById('gate-pass').value = '';
+      document.getElementById('gate-pass').focus();
+    }
+  }
+
+  document.getElementById('gate-btn').addEventListener('click', attempt);
+  document.getElementById('gate-pass').addEventListener('keydown', e => { if (e.key === 'Enter') attempt(); });
+  document.getElementById('gate-user').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gate-pass').focus(); });
+})();
+
 // ── DATA ──────────────────────────────────────────────────────────────────
 const TABS = [
   { id: 'sec',  label: 'Security',    prefix: 'SEC', color: '#1a6b4a' },
