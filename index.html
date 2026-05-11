@@ -26,7 +26,7 @@
   --fac: #4a1a6b;
   --fac-bg: #f3e8f5;
   --mun: #1a4a8a;
-  --mjr: #8a1a1a;
+  --bcm: #8a1a1a;
   --mun-bg: #e8eef7;
 
   --status-queued: #9e9b93;
@@ -1198,7 +1198,7 @@ const TABS = [
   { id: 'prc',  label: 'Procurement', prefix: 'PRC', color: '#7a3a00' },
   { id: 'fac',  label: 'Facilities',  prefix: 'FAC', color: '#4a1a6b' },
   { id: 'mun',  label: 'Municipal',   prefix: 'MUN', color: '#1a4a8a' },
-  { id: 'mjr',  label: 'Major Projects', prefix: 'MJR', color: '#8a1a1a' },
+  { id: 'bcm',  label: 'BCM', prefix: 'BCM', color: '#8a1a1a' },
 ];
 
 // Completed archive: array of { project, originTab, originCatId, originCatTitle, completedDate }
@@ -1999,32 +1999,33 @@ let DATA = {
       },
     ]},
   ]},
-  mjr: { categories: [
-    { id: 'mjr-cat-bcp', title: 'Business Continuity', projects: [
+  bcm: { categories: [
+    { id: 'bcm-cat-scoping', title: 'Phase 1 — Project Scoping', projects: [
       {
-        id: 'MJR-001', title: 'Business Continuity Plan',
+        id: 'BCM-001', title: 'Mandate & Project Charter',
         status: 'active', priority: 'high', due: '',
-        scope: 'Full development of the institutional Business Continuity Plan. Tracked by major phase — detailed task management handled in working documents.',
+        scope: 'Define the scope, objectives, and governance structure of the BCM program. Obtain formal mandate and approval from direction.',
         milestones: [
-          { text: 'Phase 1 — Project scoping and mandate approval', done: false },
-          { text: 'Phase 2 — Risk and threat assessment', done: false },
-          { text: 'Phase 3 — Business Impact Analysis (BIA)', done: false },
-          { text: 'Phase 4 — Recovery strategies development', done: false },
-          { text: 'Phase 5 — Plan documentation and drafting', done: false },
-          { text: 'Phase 6 — Testing and exercise (tabletop or simulation)', done: false },
-          { text: 'Phase 7 — Training and awareness', done: false },
-          { text: 'Phase 8 — Direction approval and sign-off', done: false },
-          { text: 'Phase 9 — Publication and distribution', done: false },
-          { text: 'Phase 10 — Maintenance schedule established', done: false },
+          { text: 'Draft project charter', done: false },
+          { text: 'Identify BCM steering committee members', done: false },
+          { text: 'Present charter to direction for approval', done: false },
+          { text: 'Mandate approved', done: false },
         ],
         questions: [],
         file: '',
         notes: '',
         changelog: [
-          { date: '2026-05-11', text: 'Project created. BCP initiative tracked by phase.' },
+          { date: '2026-05-11', text: 'Project created.' },
         ],
       },
     ]},
+    { id: 'bcm-cat-risk', title: 'Phase 2 — Risk & Threat Assessment', projects: [] },
+    { id: 'bcm-cat-bia', title: 'Phase 3 — Business Impact Analysis', projects: [] },
+    { id: 'bcm-cat-recovery', title: 'Phase 4 — Recovery Strategies', projects: [] },
+    { id: 'bcm-cat-plan', title: 'Phase 5 — Plan Documentation', projects: [] },
+    { id: 'bcm-cat-testing', title: 'Phase 6 — Testing & Exercises', projects: [] },
+    { id: 'bcm-cat-training', title: 'Phase 7 — Training & Awareness', projects: [] },
+    { id: 'bcm-cat-approval', title: 'Phase 8 — Approval & Publication', projects: [] },
   ]},
 };
 
