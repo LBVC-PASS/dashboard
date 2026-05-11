@@ -191,6 +191,11 @@ body {
 }
 .tab-btn:hover { color: var(--text); background: var(--surface2); }
 .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-btn.major { background: rgba(210, 120, 30, 0.10); color: #c47020; }
+.tab-btn.major:hover { background: rgba(210, 120, 30, 0.18); }
+.tab-btn.major.active { color: #c47020; border-bottom-color: #c47020; background: rgba(210, 120, 30, 0.18); }
+.tab-btn.major .tab-count { background: rgba(210, 120, 30, 0.15); color: #c47020; border-color: rgba(210, 120, 30, 0.25); }
+.tab-btn.major.active .tab-count { background: rgba(210, 120, 30, 0.25); color: #c47020; border-color: rgba(210, 120, 30, 0.4); }
 
 .tab-count {
   font-family: 'DM Mono', monospace;
@@ -1198,7 +1203,7 @@ const TABS = [
   { id: 'prc',  label: 'Procurement', prefix: 'PRC', color: '#7a3a00' },
   { id: 'fac',  label: 'Facilities',  prefix: 'FAC', color: '#4a1a6b' },
   { id: 'mun',  label: 'Municipal',   prefix: 'MUN', color: '#1a4a8a' },
-  { id: 'bcm',  label: 'BCM', prefix: 'BCM', color: '#8a1a1a' },
+  { id: 'bcm',  label: 'BCM', prefix: 'BCM', color: '#8a1a1a', major: true },
 ];
 
 // Completed archive: array of { project, originTab, originCatId, originCatTitle, completedDate }
@@ -2101,7 +2106,7 @@ function renderTabs() {
   container.innerHTML = '';
   TABS.forEach(tab => {
     const btn = document.createElement('button');
-    btn.className = 'tab-btn' + (tab.id === activeTab ? ' active' : '');
+    btn.className = 'tab-btn' + (tab.major ? ' major' : '') + (tab.id === activeTab ? ' active' : '');
     btn.dataset.tab = tab.id;
     let cnt = 0;
     DATA[tab.id].categories.forEach(c => cnt += c.projects.length);
