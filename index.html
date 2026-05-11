@@ -1871,10 +1871,11 @@ let DATA = {
       },
       {
         id: 'PRC-004', title: 'Board Motion — Structure Work',
-        status: 'queued', priority: 'med', due: '',
+        status: 'active', priority: 'med', due: '',
         scope: 'Prepare and present a board motion for structure work.',
         milestones: [
           { text: 'Draft board motion', done: false },
+          { text: 'Submit for internal review to Director of Plants and Facilities', done: true, doneDate: '2026-05-11' },
           { text: 'Internal review and sign-off', done: false },
           { text: 'Submit to board agenda', done: false },
           { text: 'Board approval', done: false },
@@ -1882,7 +1883,10 @@ let DATA = {
         questions: [],
         file: '',
         notes: '',
-        changelog: [{ date: '2026-05-07', text: 'Item created.' }],
+        changelog: [
+          { date: '2026-05-07', text: 'Item created.' },
+          { date: '2026-05-11', text: 'Submitted for internal review to Director of Plants and Facilities.' },
+        ],
       },
     ]},
   ]},
