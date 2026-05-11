@@ -26,6 +26,7 @@
   --fac: #4a1a6b;
   --fac-bg: #f3e8f5;
   --mun: #1a4a8a;
+  --mjr: #8a1a1a;
   --mun-bg: #e8eef7;
 
   --status-queued: #9e9b93;
@@ -1197,6 +1198,7 @@ const TABS = [
   { id: 'prc',  label: 'Procurement', prefix: 'PRC', color: '#7a3a00' },
   { id: 'fac',  label: 'Facilities',  prefix: 'FAC', color: '#4a1a6b' },
   { id: 'mun',  label: 'Municipal',   prefix: 'MUN', color: '#1a4a8a' },
+  { id: 'mjr',  label: 'Major Projects', prefix: 'MJR', color: '#8a1a1a' },
 ];
 
 // Completed archive: array of { project, originTab, originCatId, originCatTitle, completedDate }
@@ -1993,6 +1995,33 @@ let DATA = {
         changelog: [
           { date: '2026-05-09', text: 'Item created.' },
           { date: '2026-05-10', text: 'Bylaw reviewed, comments prepared and sent by email to Commission on Public Administration members. Project complete.' },
+        ],
+      },
+    ]},
+  ]},
+  mjr: { categories: [
+    { id: 'mjr-cat-bcp', title: 'Business Continuity', projects: [
+      {
+        id: 'MJR-001', title: 'Business Continuity Plan',
+        status: 'active', priority: 'high', due: '',
+        scope: 'Full development of the institutional Business Continuity Plan. Tracked by major phase — detailed task management handled in working documents.',
+        milestones: [
+          { text: 'Phase 1 — Project scoping and mandate approval', done: false },
+          { text: 'Phase 2 — Risk and threat assessment', done: false },
+          { text: 'Phase 3 — Business Impact Analysis (BIA)', done: false },
+          { text: 'Phase 4 — Recovery strategies development', done: false },
+          { text: 'Phase 5 — Plan documentation and drafting', done: false },
+          { text: 'Phase 6 — Testing and exercise (tabletop or simulation)', done: false },
+          { text: 'Phase 7 — Training and awareness', done: false },
+          { text: 'Phase 8 — Direction approval and sign-off', done: false },
+          { text: 'Phase 9 — Publication and distribution', done: false },
+          { text: 'Phase 10 — Maintenance schedule established', done: false },
+        ],
+        questions: [],
+        file: '',
+        notes: '',
+        changelog: [
+          { date: '2026-05-11', text: 'Project created. BCP initiative tracked by phase.' },
         ],
       },
     ]},
