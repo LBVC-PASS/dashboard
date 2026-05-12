@@ -1300,12 +1300,14 @@ let DATA = {
           },
           {
             id: 'SEC-005', title: 'GO: Onboarding',
-            status: 'queued', priority: 'high', due: '',
+            status: 'active', priority: 'high', due: '',
             scope: 'New hire orientation, credential issuance, field training entry, system access provisioning (Genetec, Schlage, SOC).',
             milestones: [
-              { text: 'Map current informal onboarding steps', done: false },
-              { text: 'Draft checklist and GO', done: false },
+              { text: 'Map current informal onboarding steps', done: true, doneDate: '2026-05-12' },
+              { text: 'First draft written', done: true, doneDate: '2026-05-12' },
               { text: 'Link to FTO program entry point', done: false },
+              { text: 'Review draft', done: false },
+              { text: 'Final approval', done: false },
             ],
             questions: [
               { text: 'Who initiates the onboarding process — HR or S&S?', done: false },
@@ -1314,16 +1316,21 @@ let DATA = {
             ],
             file: '',
             notes: '',
-            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+            changelog: [
+              { date: '2026-04-29', text: 'Item created.' },
+              { date: '2026-05-12', text: 'First draft created.' },
+            ],
           },
           {
             id: 'SEC-006', title: 'GO: Offboarding',
-            status: 'queued', priority: 'high', due: '',
+            status: 'active', priority: 'high', due: '',
             scope: 'Credential revocation, equipment return, Genetec/Schlage account deactivation, exit documentation. Covers voluntary and involuntary separation.',
             milestones: [
-              { text: 'Define timeline for deactivation (same day? 24h?)', done: false },
-              { text: 'Draft checklist and GO', done: false },
+              { text: 'Define timeline for deactivation (same day? 24h?)', done: true, doneDate: '2026-05-12' },
+              { text: 'First draft written', done: true, doneDate: '2026-05-12' },
               { text: 'Define who verifies completion', done: false },
+              { text: 'Review draft', done: false },
+              { text: 'Final approval', done: false },
             ],
             questions: [
               { text: 'Who notifies S&S of a departure — HR or supervisor?', done: false },
@@ -1331,7 +1338,10 @@ let DATA = {
             ],
             file: '',
             notes: '',
-            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+            changelog: [
+              { date: '2026-04-29', text: 'Item created.' },
+              { date: '2026-05-12', text: 'First draft created.' },
+            ],
           },
           {
             id: 'SEC-019', title: 'Access Control Policy',
