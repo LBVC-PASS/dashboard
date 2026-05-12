@@ -1300,13 +1300,14 @@ let DATA = {
           },
           {
             id: 'SEC-005', title: 'GO: Onboarding',
-            status: 'active', priority: 'high', due: '',
+            status: 'review', priority: 'high', due: '',
             scope: 'New hire orientation, credential issuance, field training entry, system access provisioning (Genetec, Schlage, SOC).',
             milestones: [
               { text: 'Map current informal onboarding steps', done: true, doneDate: '2026-05-12' },
               { text: 'First draft written', done: true, doneDate: '2026-05-12' },
               { text: 'Link to FTO program entry point', done: false },
-              { text: 'Review draft', done: false },
+              { text: 'Sent to Ops supervisor for review', done: true, doneDate: '2026-05-12' },
+              { text: 'Review complete — incorporate feedback', done: false },
               { text: 'Final approval', done: false },
             ],
             questions: [
@@ -1319,17 +1320,19 @@ let DATA = {
             changelog: [
               { date: '2026-04-29', text: 'Item created.' },
               { date: '2026-05-12', text: 'First draft created.' },
+              { date: '2026-05-12', text: 'Sent to Ops supervisor for review.' },
             ],
           },
           {
             id: 'SEC-006', title: 'GO: Offboarding',
-            status: 'active', priority: 'high', due: '',
+            status: 'review', priority: 'high', due: '',
             scope: 'Credential revocation, equipment return, Genetec/Schlage account deactivation, exit documentation. Covers voluntary and involuntary separation.',
             milestones: [
               { text: 'Define timeline for deactivation (same day? 24h?)', done: true, doneDate: '2026-05-12' },
               { text: 'First draft written', done: true, doneDate: '2026-05-12' },
               { text: 'Define who verifies completion', done: false },
-              { text: 'Review draft', done: false },
+              { text: 'Sent to Ops supervisor for review', done: true, doneDate: '2026-05-12' },
+              { text: 'Review complete — incorporate feedback', done: false },
               { text: 'Final approval', done: false },
             ],
             questions: [
@@ -1341,6 +1344,7 @@ let DATA = {
             changelog: [
               { date: '2026-04-29', text: 'Item created.' },
               { date: '2026-05-12', text: 'First draft created.' },
+              { date: '2026-05-12', text: 'Sent to Ops supervisor for review.' },
             ],
           },
           {
