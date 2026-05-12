@@ -1895,13 +1895,13 @@ let DATA = {
     { id: 'prc-cat-board', title: 'Board Motions', projects: [
       {
         id: 'PRC-003', title: 'Board Motion — Microsoft Contract',
-        status: 'review', priority: 'med', due: '',
+        status: 'done', priority: 'med', due: '',
         scope: 'Prepare and present a board motion for the Microsoft contract.',
         milestones: [
           { text: 'Draft board motion', done: true, doneDate: '2026-05-11' },
           { text: 'Internal review and sign-off', done: true, doneDate: '2026-05-11' },
           { text: 'Motion submitted to Corporate Affairs', done: true, doneDate: '2026-05-11' },
-          { text: 'Approval received from Corporate Affairs', done: false },
+          { text: 'Approval received from Corporate Affairs', done: true, doneDate: '2026-05-12' },
         ],
         questions: [],
         file: '',
@@ -1909,18 +1909,19 @@ let DATA = {
         changelog: [
           { date: '2026-05-07', text: 'Item created.' },
           { date: '2026-05-11', text: 'Motion drafted, reviewed, and submitted to Corporate Affairs. Awaiting approval.' },
+          { date: '2026-05-12', text: 'Approval received. Board motion complete.' },
         ],
       },
       {
         id: 'PRC-004', title: 'Board Motion — Structure Work',
-        status: 'review', priority: 'med', due: '',
+        status: 'done', priority: 'med', due: '',
         scope: 'Prepare and present a board motion for structure work.',
         milestones: [
           { text: 'Draft board motion', done: true, doneDate: '2026-05-11' },
           { text: 'Submit for internal review to Director of Plants and Facilities', done: true, doneDate: '2026-05-11' },
           { text: 'Internal review and sign-off', done: true, doneDate: '2026-05-11' },
           { text: 'Motion submitted to Corporate Affairs', done: true, doneDate: '2026-05-11' },
-          { text: 'Approval received from Corporate Affairs', done: false },
+          { text: 'Approval received from Corporate Affairs', done: true, doneDate: '2026-05-12' },
         ],
         questions: [],
         file: '',
@@ -1929,6 +1930,7 @@ let DATA = {
           { date: '2026-05-07', text: 'Item created.' },
           { date: '2026-05-11', text: 'Submitted for internal review to Director of Plants and Facilities.' },
           { date: '2026-05-11', text: 'Motion reviewed and submitted to Corporate Affairs. Awaiting approval.' },
+          { date: '2026-05-12', text: 'Approval received. Board motion complete.' },
         ],
       },
     ]},
