@@ -2080,6 +2080,23 @@ let DATA = {
           { date: '2026-05-11', text: 'Project created. Work group and steering committee both formed.' },
         ],
       },
+      {
+        id: 'BCM-008', title: 'Governance Meetings — Work Group & Steering Committee',
+        status: 'active', priority: 'high', due: '',
+        scope: 'Schedule and conduct ongoing governance meetings for the BCM Work Group and Steering Committee to review progress and provide direction.',
+        milestones: [
+          { text: 'Schedule BCM Work Group meeting (June or July)', done: false },
+          { text: 'BCM Work Group meeting held', done: false },
+          { text: 'Schedule BCM Steering Committee meeting (July or August)', done: false },
+          { text: 'BCM Steering Committee meeting held', done: false },
+        ],
+        questions: [],
+        file: '',
+        notes: '',
+        changelog: [
+          { date: '2026-05-18', text: 'Project created. Loïc to schedule Work Group meeting in June/July and Steering Committee meeting in July/August.' },
+        ],
+      },
     ]},
     { id: 'bcm-cat-risk', title: 'Phase 2 — Risk & Threat Assessment', projects: [] },
     { id: 'bcm-cat-bia', title: 'Phase 3 — Business Impact Analysis', projects: [
@@ -2107,14 +2124,15 @@ let DATA = {
       {
         id: 'BCM-004', title: 'Interim Mitigation Strategies',
         status: 'active', priority: 'high', due: '',
-        scope: 'Develop interim mitigation strategies in collaboration with the BCM consultant. Involves planning meetings with key institutional sectors.',
+        scope: 'Develop interim mitigation strategies in collaboration with BCM consultant Camille. Individual sector meetings held with BCM Working Group representatives. Scenarios developed focus on disruptions affecting: Human Resources, Facilities, Information, Equipment, and Suppliers & External Partners.',
         milestones: [
-          { text: 'Planning meeting — Financial Services', done: false },
           { text: 'Planning meeting — HR', done: true, doneDate: '2026-05-12' },
           { text: 'Planning meeting — IT Services', done: true, doneDate: '2026-05-14' },
-          { text: 'Planning meeting — Academic Sector', done: false },
           { text: 'Planning meeting — Communications', done: true, doneDate: '2026-05-14' },
-          { text: 'Planning meeting — Student Services', done: false },
+          { text: 'Planning meeting — Academic Sector', done: true, doneDate: '2026-05-15' },
+          { text: 'Planning meeting — Financial Services', done: true, doneDate: '2026-05-15' },
+          { text: 'Planning meeting — Student Services', done: true, doneDate: '2026-05-15' },
+          { text: 'Planning meeting — Language School & International Education', done: false },
           { text: 'Interim strategies drafted by consultant', done: false },
           { text: 'Interim strategies reviewed and validated', done: false },
         ],
@@ -2126,6 +2144,9 @@ let DATA = {
           { date: '2026-05-12', text: 'Consultant met with HR.' },
           { date: '2026-05-14', text: 'Consultant met with IT Services.' },
           { date: '2026-05-14', text: 'Consultant met with Communications.' },
+          { date: '2026-05-15', text: 'Consultant met with Academic Sector.' },
+          { date: '2026-05-15', text: 'Consultant met with Financial Services and Student Services.' },
+          { date: '2026-05-18', text: 'Meeting with Loïc and Camille (May 18). Language School & International Education meeting still pending. Consultant continues developing interim strategy.' },
         ],
       },
     ]},
@@ -2133,11 +2154,12 @@ let DATA = {
       {
         id: 'BCM-005', title: 'BCM Policy Framework',
         status: 'active', priority: 'high', due: '2026-09-01',
-        scope: 'Develop and adopt the institutional BCM policy framework. Target adoption in September. Consultant is drafting; work required to adapt it to the college context and send through the approval process.',
+        scope: 'Develop and adopt the institutional BCM policy framework. Target adoption in September. Consultant (Camille) is leading the draft; Loïc to provide feedback and adapt to college context before sending through the approval process.',
         milestones: [
-          { text: 'Consultant drafts policy framework', done: false },
-          { text: 'Adapt framework to college context', done: false },
-          { text: 'Internal review with work group', done: false },
+          { text: 'Consultant uploads v1.0 to shared drive', done: false },
+          { text: 'Discuss governance guidelines with Fida', done: false },
+          { text: 'Integrate Loïc\'s feedback — produce v1.1', done: false },
+          { text: 'Internal review with BCM Work Group', done: false },
           { text: 'Submit through approval process', done: false },
           { text: 'Policy framework adopted', done: false },
         ],
@@ -2146,16 +2168,37 @@ let DATA = {
         notes: '',
         changelog: [
           { date: '2026-05-11', text: 'Project created. Consultant working on draft. Target adoption: September 2026.' },
+          { date: '2026-05-18', text: 'Meeting with Loïc and Camille. Camille to upload v1.0 and integrate Loïc\'s feedback to produce v1.1. Loïc to discuss governance guidelines with Fida.' },
         ],
       },
     ]},
-    { id: 'bcm-cat-testing', title: 'Phase 6 — Testing & Exercises', projects: [] },
+    { id: 'bcm-cat-testing', title: 'Phase 6 — Testing & Exercises', projects: [
+      {
+        id: 'BCM-007', title: 'Tabletop Exercise — MEC',
+        status: 'queued', priority: 'high', due: '2026-08-31',
+        scope: 'Conduct a tabletop exercise with MEC during summer 2026 to test business continuity scenarios and validate institutional readiness.',
+        milestones: [
+          { text: 'Schedule tabletop exercise with MEC', done: false },
+          { text: 'Prepare exercise scenarios and facilitation guide', done: false },
+          { text: 'Conduct tabletop exercise', done: false },
+          { text: 'Debrief and document findings', done: false },
+          { text: 'Incorporate findings into BCM plan', done: false },
+        ],
+        questions: [],
+        file: '',
+        notes: '',
+        changelog: [
+          { date: '2026-05-18', text: 'Project created. Loïc to schedule tabletop exercise with MEC during summer 2026.' },
+        ],
+      },
+    ]},
     { id: 'bcm-cat-training', title: 'Phase 7 — Training & Awareness', projects: [
       {
         id: 'BCM-006', title: 'PED Day — BCM Auditorium Presentation',
         status: 'active', priority: 'med', due: '2026-08-01',
-        scope: 'Deliver an institutional presentation on Business Continuity at the start-of-year PED Day in August. Full auditorium format.',
+        scope: 'Deliver an institutional presentation on Business Continuity at the end-of-August professional development day. Full auditorium format. Integration into PED Day to be confirmed.',
         milestones: [
+          { text: 'Assess feasibility of integrating BCM into PED Day program', done: false },
           { text: 'Confirm PED Day date and auditorium slot', done: false },
           { text: 'Define presentation objectives and audience', done: false },
           { text: 'Develop presentation content', done: false },
@@ -2167,6 +2210,7 @@ let DATA = {
         notes: '',
         changelog: [
           { date: '2026-05-11', text: 'Project created. Targeting start-of-year PED Day in August.' },
+          { date: '2026-05-18', text: 'Meeting with Loïc and Camille. Loïc to assess whether BCM presentation can be integrated into end-of-August professional development day.' },
         ],
       },
     ]},
