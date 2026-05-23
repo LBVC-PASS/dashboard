@@ -395,17 +395,6 @@ body {
   white-space: nowrap;
   flex-shrink: 0;
 }
-.motion-badge {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: #7a3a00;
-  background: rgba(122, 58, 0, 0.10);
-  padding: 2px 8px;
-  border-radius: 4px;
-  border: 1px solid rgba(122, 58, 0, 0.25);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
 
 .project-title {
   font-weight: 500;
@@ -1914,7 +1903,7 @@ let DATA = {
     ]},
     { id: 'prc-cat-board', title: 'Board Motions', projects: [
       {
-        id: 'PRC-003', title: 'Board Motion — Microsoft Contract', motionNumber: 'BM-004',
+        id: 'PRC-003', title: 'Board Motion — Microsoft Contract',
         status: 'done', priority: 'med', due: '',
         scope: 'Prepare and present a board motion for the Microsoft contract.',
         milestones: [
@@ -1933,7 +1922,7 @@ let DATA = {
         ],
       },
       {
-        id: 'PRC-004', title: 'Board Motion — Structure Work', motionNumber: 'BM-005',
+        id: 'PRC-004', title: 'Board Motion — Structure Work',
         status: 'done', priority: 'med', due: '',
         scope: 'Prepare and present a board motion for structure work.',
         milestones: [
@@ -1951,54 +1940,6 @@ let DATA = {
           { date: '2026-05-11', text: 'Submitted for internal review to Director of Plants and Facilities.' },
           { date: '2026-05-11', text: 'Motion reviewed and submitted to Corporate Affairs. Awaiting approval.' },
           { date: '2026-05-12', text: 'Approval received. Board motion complete.' },
-        ],
-      },
-      {
-        id: 'PRC-005', title: 'Board Motion — CAG Group Purchase (Computers, Laptops, Monitors, Tablets)', motionNumber: 'BM-002',
-        status: 'done', priority: 'med', due: '',
-        scope: 'Board motion to approve joining the CAG group purchase for computers, laptops, monitors, and tablets. Contract value: $3,876,336 over 5 years.',
-        milestones: [
-          { text: 'Motion drafted and presented', done: true, doneDate: '2026-03-01' },
-          { text: 'Board approval received', done: true, doneDate: '2026-03-01' },
-        ],
-        questions: [],
-        file: '',
-        notes: '',
-        changelog: [
-          { date: '2026-03-01', text: 'Board motion approved. Mandate to join CAG group purchase (computers, laptops, monitors, tablets) — $3,876,336 over 5 years.' },
-          { date: '2026-05-23', text: 'Item created for logging purposes.' },
-        ],
-      },
-      {
-        id: 'PRC-006', title: 'Board Motion — Annual Computer Replacement (INSO / Lenovo)', motionNumber: 'BM-001',
-        status: 'done', priority: 'med', due: '',
-        scope: 'Annual refresh cycle board motion superseding a previous motion. Contract moved from IT2GO (Dell) to INSO (Lenovo) for the yearly computer replacement acquisition. Contract value: $859,806.',
-        milestones: [
-          { text: 'Motion drafted and presented', done: true, doneDate: '2026-02-01' },
-          { text: 'Board approval received', done: true, doneDate: '2026-02-01' },
-        ],
-        questions: [],
-        file: '',
-        notes: '',
-        changelog: [
-          { date: '2026-02-01', text: 'Board motion approved. Annual computer replacement contract moved from IT2GO (Dell) to INSO (Lenovo) — $859,806. Supersedes previous motion.' },
-          { date: '2026-05-23', text: 'Item created for logging purposes.' },
-        ],
-      },
-      {
-        id: 'PRC-007', title: 'Board Motion — Independent Auditor Approval (Amyot Gélinas)', motionNumber: 'BM-003',
-        status: 'done', priority: 'med', due: '',
-        scope: 'Board motion for approval of independent auditor for fiscal year 2025–2026. Contractor: Amyot Gélinas s.e.n.c.r.l.',
-        milestones: [
-          { text: 'Motion drafted and presented', done: true, doneDate: '2026-03-01' },
-          { text: 'Board approval received', done: true, doneDate: '2026-03-01' },
-        ],
-        questions: [],
-        file: '',
-        notes: '',
-        changelog: [
-          { date: '2026-03-01', text: 'Board motion approved. Independent auditor for FY 2025–2026 awarded to Amyot Gélinas s.e.n.c.r.l.' },
-          { date: '2026-05-23', text: 'Item created for logging purposes.' },
         ],
       },
     ]},
@@ -2392,7 +2333,6 @@ function getFilteredProjects(projects) {
     list = list.filter(p =>
       p.id.toLowerCase().includes(q) ||
       p.title.toLowerCase().includes(q) ||
-      (p.motionNumber || '').toLowerCase().includes(q) ||
       (p.scope || '').toLowerCase().includes(q) ||
       (p.notes || '').toLowerCase().includes(q)
     );
@@ -2446,7 +2386,6 @@ function renderProject(p, catId) {
   return `<div class="project-card ${p.status}" id="card-${p.id}" data-project="${p.id}" data-cat="${catId}">
     <div class="card-top" onclick="toggleCard('${p.id}')">
       <span class="project-id">${p.id}</span>
-      ${p.motionNumber ? `<span class="motion-badge">${p.motionNumber}</span>` : ''}
       <div class="priority-pip ${p.priority}" title="Priority: ${p.priority}"></div>
       <span class="project-title">${p.title}</span>
       ${renderMiniMilestones(p.milestones)}
@@ -2539,7 +2478,7 @@ function renderCompleted(main) {
         // Apply search filter on completed tab
         if (searchQuery) {
           const q = searchQuery.toLowerCase();
-          if (!p.id.toLowerCase().includes(q) && !p.title.toLowerCase().includes(q) && !(p.motionNumber||'').toLowerCase().includes(q) && !(p.scope||'').toLowerCase().includes(q)) return;
+          if (!p.id.toLowerCase().includes(q) && !p.title.toLowerCase().includes(q) && !(p.scope||'').toLowerCase().includes(q)) return;
         }
 
         const card = document.createElement('div');
@@ -2552,7 +2491,6 @@ function renderCompleted(main) {
         card.innerHTML = `
           <div class="card-top" onclick="toggleCard('${p.id}')">
             <span class="project-id">${p.id}</span>
-            ${p.motionNumber ? `<span class="motion-badge">${p.motionNumber}</span>` : ''}
             <div class="priority-pip ${p.priority}"></div>
             <span class="project-title">${p.title}</span>
             <span class="completed-date-badge">✓ ${fmtDate(entry.completedDate)}</span>
