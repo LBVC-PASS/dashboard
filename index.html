@@ -395,6 +395,17 @@ body {
   white-space: nowrap;
   flex-shrink: 0;
 }
+.motion-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #7a3a00;
+  background: rgba(122, 58, 0, 0.10);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(122, 58, 0, 0.25);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
 .project-title {
   font-weight: 500;
@@ -1903,7 +1914,7 @@ let DATA = {
     ]},
     { id: 'prc-cat-board', title: 'Board Motions', projects: [
       {
-        id: 'PRC-003', title: 'BM-004 — Microsoft Contract',
+        id: 'PRC-003', title: 'Board Motion — Microsoft Contract', motionNumber: 'BM-004',
         status: 'done', priority: 'med', due: '',
         scope: 'Prepare and present a board motion for the Microsoft contract.',
         milestones: [
@@ -1922,7 +1933,7 @@ let DATA = {
         ],
       },
       {
-        id: 'PRC-004', title: 'BM-005 — Structure Work',
+        id: 'PRC-004', title: 'Board Motion — Structure Work', motionNumber: 'BM-005',
         status: 'done', priority: 'med', due: '',
         scope: 'Prepare and present a board motion for structure work.',
         milestones: [
@@ -1943,7 +1954,7 @@ let DATA = {
         ],
       },
       {
-        id: 'PRC-005', title: 'BM-002 — CAG Group Purchase Mandate (Computers, Laptops, Monitors, Tablets)',
+        id: 'PRC-005', title: 'Board Motion — CAG Group Purchase (Computers, Laptops, Monitors, Tablets)', motionNumber: 'BM-002',
         status: 'done', priority: 'med', due: '',
         scope: 'Board motion to approve joining the CAG group purchase for computers, laptops, monitors, and tablets. Contract value: $3,876,336 over 5 years.',
         milestones: [
@@ -1959,7 +1970,7 @@ let DATA = {
         ],
       },
       {
-        id: 'PRC-006', title: 'BM-001 — Annual Computer Replacement (INSO / Lenovo)',
+        id: 'PRC-006', title: 'Board Motion — Annual Computer Replacement (INSO / Lenovo)', motionNumber: 'BM-001',
         status: 'done', priority: 'med', due: '',
         scope: 'Annual refresh cycle board motion superseding a previous motion. Contract moved from IT2GO (Dell) to INSO (Lenovo) for the yearly computer replacement acquisition. Contract value: $859,806.',
         milestones: [
@@ -1975,7 +1986,7 @@ let DATA = {
         ],
       },
       {
-        id: 'PRC-007', title: 'BM-003 — Independent Auditor Approval (Amyot Gélinas)',
+        id: 'PRC-007', title: 'Board Motion — Independent Auditor Approval (Amyot Gélinas)', motionNumber: 'BM-003',
         status: 'done', priority: 'med', due: '',
         scope: 'Board motion for approval of independent auditor for fiscal year 2025–2026. Contractor: Amyot Gélinas s.e.n.c.r.l.',
         milestones: [
@@ -2381,6 +2392,7 @@ function getFilteredProjects(projects) {
     list = list.filter(p =>
       p.id.toLowerCase().includes(q) ||
       p.title.toLowerCase().includes(q) ||
+      (p.motionNumber || '').toLowerCase().includes(q) ||
       (p.scope || '').toLowerCase().includes(q) ||
       (p.notes || '').toLowerCase().includes(q)
     );
@@ -2434,6 +2446,7 @@ function renderProject(p, catId) {
   return `<div class="project-card ${p.status}" id="card-${p.id}" data-project="${p.id}" data-cat="${catId}">
     <div class="card-top" onclick="toggleCard('${p.id}')">
       <span class="project-id">${p.id}</span>
+      ${p.motionNumber ? `<span class="motion-badge">${p.motionNumber}</span>` : ''}
       <div class="priority-pip ${p.priority}" title="Priority: ${p.priority}"></div>
       <span class="project-title">${p.title}</span>
       ${renderMiniMilestones(p.milestones)}
