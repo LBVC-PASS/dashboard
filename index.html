@@ -2539,7 +2539,7 @@ function renderCompleted(main) {
         // Apply search filter on completed tab
         if (searchQuery) {
           const q = searchQuery.toLowerCase();
-          if (!p.id.toLowerCase().includes(q) && !p.title.toLowerCase().includes(q) && !(p.scope||'').toLowerCase().includes(q)) return;
+          if (!p.id.toLowerCase().includes(q) && !p.title.toLowerCase().includes(q) && !(p.motionNumber||'').toLowerCase().includes(q) && !(p.scope||'').toLowerCase().includes(q)) return;
         }
 
         const card = document.createElement('div');
@@ -2552,6 +2552,7 @@ function renderCompleted(main) {
         card.innerHTML = `
           <div class="card-top" onclick="toggleCard('${p.id}')">
             <span class="project-id">${p.id}</span>
+            ${p.motionNumber ? `<span class="motion-badge">${p.motionNumber}</span>` : ''}
             <div class="priority-pip ${p.priority}"></div>
             <span class="project-title">${p.title}</span>
             <span class="completed-date-badge">✓ ${fmtDate(entry.completedDate)}</span>
