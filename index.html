@@ -196,6 +196,11 @@ body {
 .tab-btn.major.active { color: #c47020; border-bottom-color: #c47020; background: rgba(210, 120, 30, 0.18); }
 .tab-btn.major .tab-count { background: rgba(210, 120, 30, 0.15); color: #c47020; border-color: rgba(210, 120, 30, 0.25); }
 .tab-btn.major.active .tab-count { background: rgba(210, 120, 30, 0.25); color: #c47020; border-color: rgba(210, 120, 30, 0.4); }
+.tab-btn.summer { background: rgba(230, 175, 0, 0.10); color: #7a6000; }
+.tab-btn.summer:hover { background: rgba(230, 175, 0, 0.18); }
+.tab-btn.summer.active { color: #c09400; border-bottom-color: #c09400; background: rgba(230, 175, 0, 0.18); }
+.tab-btn.summer .tab-count { background: rgba(230, 175, 0, 0.15); color: #7a6000; border-color: rgba(230, 175, 0, 0.25); }
+.tab-btn.summer.active .tab-count { background: rgba(230, 175, 0, 0.25); color: #c09400; border-color: rgba(230, 175, 0, 0.40); }
 
 .tab-count {
   font-family: 'DM Mono', monospace;
@@ -1203,6 +1208,7 @@ const TABS = [
   { id: 'prc',  label: 'Procurement', prefix: 'PRC', color: '#7a3a00' },
   { id: 'fac',  label: 'Facilities',  prefix: 'FAC', color: '#4a1a6b' },
   { id: 'mun',  label: 'Municipal',   prefix: 'MUN', color: '#1a4a8a' },
+  { id: 'sum',  label: 'Summer 2026', prefix: 'SEC', color: '#7a6000', summer: true },
   { id: 'bcm',  label: 'BCM', prefix: 'BCM', color: '#8a1a1a', major: true },
 ];
 
@@ -2229,6 +2235,7 @@ let DATA = {
     ]},
     { id: 'bcm-cat-approval', title: 'Phase 8 — Approval & Publication', projects: [] },
   ]},
+  sum: { categories: [] },
 };
 
 // ── STATE ─────────────────────────────────────────────────────────────────
@@ -2303,10 +2310,14 @@ function renderTabs() {
   container.innerHTML = '';
   TABS.forEach(tab => {
     const btn = document.createElement('button');
-    btn.className = 'tab-btn' + (tab.major ? ' major' : '') + (tab.id === activeTab ? ' active' : '');
+    btn.className = 'tab-btn' + (tab.major ? ' major' : '') + (tab.summer ? ' summer' : '') + (tab.id === activeTab ? ' active' : '');
     btn.dataset.tab = tab.id;
     let cnt = 0;
-    DATA[tab.id].categories.forEach(c => cnt += c.projects.length);
+    if (tab.summer) {
+      DATA.sec.categories.forEach(c => c.projects.forEach(p => { if (p.summer) cnt++; }));
+    } else {
+      DATA[tab.id].categories.forEach(c => cnt += c.projects.length);
+    }
     btn.innerHTML = `${tab.label} <span class="tab-count" id="tab-count-${tab.id}">${cnt}</span>`;
     btn.addEventListener('click', () => { activeTab = tab.id; renderAll(); });
     container.appendChild(btn);
@@ -2547,6 +2558,47 @@ function renderContent() {
   // ── COMPLETED TAB ──────────────────────────────────────────────────────
   if (activeTab === 'completed') {
     renderCompleted(main);
+    return;
+  }
+
+  // ── SUMMER TAB (filtered view of SEC projects tagged summer:true) ───────
+  const activeTabDef = TABS.find(t => t.id === activeTab);
+  if (activeTabDef && activeTabDef.summer) {
+    let totalSummer = 0;
+    DATA.sec.categories.forEach(cat => {
+      const summerProjects = cat.projects.filter(p => p.summer);
+      if (summerProjects.length === 0) return;
+      const filtered = getFilteredProjects(summerProjects);
+      totalSummer += summerProjects.length;
+
+      const catDiv = document.createElement('div');
+      catDiv.className = 'category';
+      catDiv.id = `cat-sum-${cat.id}`;
+      const doneCount = summerProjects.filter(p => p.status === 'done').length;
+      const pct = Math.round((doneCount / summerProjects.length) * 100);
+      catDiv.innerHTML = `
+        <div class="cat-header">
+          <span class="cat-title">${cat.title}</span>
+          <div class="cat-progress-wrap"><div class="cat-progress-bar" style="width:${pct}%"></div></div>
+          <span class="cat-pct">${pct}%</span>
+          <span class="cat-count">${summerProjects.length}</span>
+        </div>
+        <div class="projects-list" id="list-sum-${cat.id}">
+          ${filtered.length > 0
+            ? filtered.map(p => renderProject(p, cat.id)).join('')
+            : `<div class="empty-state"><div style="font-size:28px">📋</div><p>No projects match your filters.</p></div>`}
+        </div>`;
+      main.appendChild(catDiv);
+      filtered.forEach(p => {
+        if (expandedCards.has(p.id)) {
+          const card = document.getElementById(`card-${p.id}`);
+          if (card) card.classList.add('expanded');
+        }
+      });
+    });
+    if (totalSummer === 0) {
+      main.innerHTML = `<div class="empty-state"><div style="font-size:48px">☀️</div><p>No summer projects yet.<br>Tag a Security project with <code>summer: true</code> to surface it here.</p></div>`;
+    }
     return;
   }
 
