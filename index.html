@@ -196,6 +196,11 @@ body {
 .tab-btn.major.active { color: #c47020; border-bottom-color: #c47020; background: rgba(210, 120, 30, 0.18); }
 .tab-btn.major .tab-count { background: rgba(210, 120, 30, 0.15); color: #c47020; border-color: rgba(210, 120, 30, 0.25); }
 .tab-btn.major.active .tab-count { background: rgba(210, 120, 30, 0.25); color: #c47020; border-color: rgba(210, 120, 30, 0.4); }
+.tab-btn.summer { background: rgba(230, 175, 0, 0.10); color: #7a6000; }
+.tab-btn.summer:hover { background: rgba(230, 175, 0, 0.18); }
+.tab-btn.summer.active { color: #c09400; border-bottom-color: #c09400; background: rgba(230, 175, 0, 0.18); }
+.tab-btn.summer .tab-count { background: rgba(230, 175, 0, 0.15); color: #7a6000; border-color: rgba(230, 175, 0, 0.25); }
+.tab-btn.summer.active .tab-count { background: rgba(230, 175, 0, 0.25); color: #c09400; border-color: rgba(230, 175, 0, 0.40); }
 
 .tab-count {
   font-family: 'DM Mono', monospace;
@@ -1203,6 +1208,7 @@ const TABS = [
   { id: 'prc',  label: 'Procurement', prefix: 'PRC', color: '#7a3a00' },
   { id: 'fac',  label: 'Facilities',  prefix: 'FAC', color: '#4a1a6b' },
   { id: 'mun',  label: 'Municipal',   prefix: 'MUN', color: '#1a4a8a' },
+  { id: 'sum',  label: 'Summer 2026', prefix: 'SEC', color: '#7a6000', summer: true },
   { id: 'bcm',  label: 'BCM', prefix: 'BCM', color: '#8a1a1a', major: true },
 ];
 
@@ -1651,6 +1657,46 @@ let DATA = {
             notes: '',
             changelog: [{ date: '2026-05-09', text: 'Item created.' }],
           },
+          {
+            id: 'SEC-033', title: 'Omnigo / Resolver — Feasibility Study', status: 'active', priority: 'med', due: '',
+            scope: 'Evaluate Omnigo (Resolver) incident management software for feasibility and fit within our security operations. Assess cost, integration with existing systems, and operational requirements.',
+            milestones: [
+              { text: 'Review Omnigo/Resolver product documentation and demos', done: false },
+              { text: 'Consult with peer institutions on usage and outcomes', done: false },
+              { text: 'Prepare feasibility and cost summary for management', done: false },
+              { text: 'Decision: adopt, defer, or decline', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-034', title: 'NFC Tags — TourPerfect (G & H Buildings)', status: 'active', priority: 'med', due: '',
+            scope: 'Complete installation and configuration of NFC patrol tags in G and H buildings using TourPerfect. Finalise remaining checkpoints to achieve full building coverage.',
+            milestones: [
+              { text: 'Audit existing NFC tag placement — G building', done: false },
+              { text: 'Audit existing NFC tag placement — H building', done: false },
+              { text: 'Install and program remaining tags', done: false },
+              { text: 'Test all checkpoints in TourPerfect', done: false },
+              { text: 'Full patrol route validated', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative — completing NFC tag rollout for G and H buildings.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-035', title: 'Camera Adjustments — Loop List', status: 'active', priority: 'med', due: '',
+            scope: 'Complete outstanding camera angle and positioning adjustments identified in the Loop review list. Coordinate with technician to address each item and sign off on completion.',
+            milestones: [
+              { text: 'Obtain current Loop list of camera adjustments required', done: false },
+              { text: 'Schedule technician for adjustment work', done: false },
+              { text: 'Adjustments completed and verified', done: false },
+              { text: 'Loop list signed off as complete', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative — completing camera adjustment list from Loop review.' }],
+            summer: true,
+          },
         ]
       },
       {
@@ -1708,6 +1754,100 @@ let DATA = {
             file: '',
             notes: '',
             changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+          },
+          {
+            id: 'SEC-036', title: 'Narcan Training & Info Sheets — Security Agents', status: 'active', priority: 'high', due: '',
+            scope: 'Develop Narcan (naloxone) training materials and quick-reference info sheets for security agents. Ensure all agents are trained on recognition of opioid overdose and proper Narcan administration.',
+            milestones: [
+              { text: 'Draft Narcan info sheet and quick-reference card', done: false },
+              { text: 'Review with health/safety resource', done: false },
+              { text: 'Finalise and print materials', done: false },
+              { text: 'Deliver training session to agents', done: false },
+              { text: 'All agents trained — sign-off recorded', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-037', title: 'EpiPen Training & Info Sheets — Security Agents', status: 'active', priority: 'high', due: '',
+            scope: 'Develop EpiPen training materials and quick-reference info sheets for security agents. Ensure all agents are trained on recognizing anaphylaxis and proper epinephrine auto-injector use.',
+            milestones: [
+              { text: 'Draft EpiPen info sheet and quick-reference card', done: false },
+              { text: 'Review with health/safety resource', done: false },
+              { text: 'Finalise and print materials', done: false },
+              { text: 'Deliver training session to agents', done: false },
+              { text: 'All agents trained — sign-off recorded', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-038', title: 'Power Ready — Onboarding Program Deployment', status: 'active', priority: 'high', due: '',
+            scope: 'Deploy the Power Ready onboarding training program for security agents based on the approved training go-ahead. Roll out structured onboarding content and confirm completion tracking.',
+            milestones: [
+              { text: 'Confirm training content and materials are finalised', done: false },
+              { text: 'Schedule onboarding sessions with all agents', done: false },
+              { text: 'Deliver onboarding program', done: false },
+              { text: 'Track and record completion for each agent', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Training GO received — proceeding to deployment.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-039', title: 'Power Ready — Phase 2: Annual Evaluation', status: 'queued', priority: 'med', due: '',
+            scope: 'Design and implement the annual performance evaluation component of the Power Ready program. Phase 2 follows successful onboarding deployment and establishes a recurring evaluation cycle for agents.',
+            milestones: [
+              { text: 'Phase 1 (onboarding) fully deployed — prerequisite (SEC-038)', done: false },
+              { text: 'Design annual evaluation framework and criteria', done: false },
+              { text: 'Review evaluation framework with management', done: false },
+              { text: 'Pilot annual evaluation with agent cohort', done: false },
+              { text: 'Annual evaluation cycle established', done: false },
+            ],
+            questions: [], file: '', notes: 'Depends on completion of SEC-038 (Power Ready Phase 1).',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Queued — follows SEC-038 deployment.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-040', title: 'Auditorium — Showstop Procedure', status: 'active', priority: 'high', due: '',
+            scope: 'Develop and document a formal showstop procedure for the auditorium, covering the conditions and authority required to halt an event, communication chain, and post-incident steps.',
+            milestones: [
+              { text: 'Draft showstop procedure document', done: false },
+              { text: 'Review with management and event stakeholders', done: false },
+              { text: 'Finalise and communicate to security team', done: false },
+              { text: 'Incorporate into auditorium event briefings', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-041', title: 'Auditorium — Emergency Instructions Message', status: 'active', priority: 'high', due: '',
+            scope: 'Create a standardised emergency instructions message for auditorium events, covering evacuation routes, shelter-in-place, and emergency contact information. To be displayed or announced at the start of events.',
+            milestones: [
+              { text: 'Draft emergency message script', done: false },
+              { text: 'Review with management and Communications', done: false },
+              { text: 'Produce final version (text + display format)', done: false },
+              { text: 'Implement at auditorium events', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-042', title: 'Security — Onboarding & Offboarding Procedure', status: 'active', priority: 'med', due: '',
+            scope: 'Develop a formal onboarding and offboarding procedure for security department personnel, covering access provisioning, equipment issuance, training requirements, and departure checklists.',
+            milestones: [
+              { text: 'Draft onboarding checklist and procedure', done: false },
+              { text: 'Draft offboarding checklist and procedure', done: false },
+              { text: 'Review with HR and management', done: false },
+              { text: 'Finalise and publish procedures', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            summer: true,
           },
         ]
       },
@@ -1859,6 +1999,59 @@ let DATA = {
               { date: '2026-05-12', text: 'Item created.' },
               { date: '2026-05-22', text: 'Key messages and fee details defined. Reviewed with Director of Physical Plant. Next step: coordinate with Communications.' },
             ],
+          },
+          {
+            id: 'SEC-043', title: 'Business Cards — Agents & Security Officers', status: 'active', priority: 'low', due: '',
+            scope: 'Design and order professional business cards for security agents and security officers. Cards to include name, title, department contact information, and Vanier branding.',
+            milestones: [
+              { text: 'Define card design and required fields', done: false },
+              { text: 'Confirm list of agents and officers requiring cards', done: false },
+              { text: 'Submit design for approval and printing', done: false },
+              { text: 'Cards received and distributed', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-044', title: 'Security Uniforms — Vanier Branding', status: 'active', priority: 'med', due: '',
+            scope: 'Source and procure new security uniforms featuring Vanier College branding. Coordinate sizing, quantities, and delivery for the full security team.',
+            milestones: [
+              { text: 'Define uniform specifications and branding requirements', done: false },
+              { text: 'Collect sizing information from all team members', done: false },
+              { text: 'Obtain quotes from suppliers', done: false },
+              { text: 'Select supplier and place order', done: false },
+              { text: 'Uniforms received and distributed', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-045', title: 'Relocation — K-218 Locker Room', status: 'active', priority: 'med', due: '',
+            scope: 'Coordinate the relocation of security team locker facilities to K-218. Plan logistics, access setup, and any required renovation or fitment work.',
+            milestones: [
+              { text: 'Confirm K-218 availability and readiness', done: false },
+              { text: 'Identify any required modifications or installations', done: false },
+              { text: 'Coordinate move with Facilities', done: false },
+              { text: 'Move completed — team transitioned to K-218', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            summer: true,
+          },
+          {
+            id: 'SEC-046', title: 'Uber Vouchers — Security Operations', status: 'active', priority: 'med', due: '',
+            scope: 'Establish an Uber voucher program for security operations use (e.g., safe ride home for students in distress, late-night agent transport). Define eligibility, approval workflow, and budget envelope.',
+            milestones: [
+              { text: 'Define use cases and eligibility criteria', done: false },
+              { text: 'Confirm budget allocation with management', done: false },
+              { text: 'Set up Uber for Business account or voucher system', done: false },
+              { text: 'Communicate procedure to security team', done: false },
+            ],
+            questions: [], file: '', notes: '',
+            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            summer: true,
           },
         ]
       }
@@ -2229,6 +2422,7 @@ let DATA = {
     ]},
     { id: 'bcm-cat-approval', title: 'Phase 8 — Approval & Publication', projects: [] },
   ]},
+  sum: { categories: [] },
 };
 
 // ── STATE ─────────────────────────────────────────────────────────────────
@@ -2303,10 +2497,14 @@ function renderTabs() {
   container.innerHTML = '';
   TABS.forEach(tab => {
     const btn = document.createElement('button');
-    btn.className = 'tab-btn' + (tab.major ? ' major' : '') + (tab.id === activeTab ? ' active' : '');
+    btn.className = 'tab-btn' + (tab.major ? ' major' : '') + (tab.summer ? ' summer' : '') + (tab.id === activeTab ? ' active' : '');
     btn.dataset.tab = tab.id;
     let cnt = 0;
-    DATA[tab.id].categories.forEach(c => cnt += c.projects.length);
+    if (tab.summer) {
+      DATA.sec.categories.forEach(c => c.projects.forEach(p => { if (p.summer) cnt++; }));
+    } else {
+      DATA[tab.id].categories.forEach(c => cnt += c.projects.length);
+    }
     btn.innerHTML = `${tab.label} <span class="tab-count" id="tab-count-${tab.id}">${cnt}</span>`;
     btn.addEventListener('click', () => { activeTab = tab.id; renderAll(); });
     container.appendChild(btn);
@@ -2547,6 +2745,47 @@ function renderContent() {
   // ── COMPLETED TAB ──────────────────────────────────────────────────────
   if (activeTab === 'completed') {
     renderCompleted(main);
+    return;
+  }
+
+  // ── SUMMER TAB (filtered view of SEC projects tagged summer:true) ───────
+  const activeTabDef = TABS.find(t => t.id === activeTab);
+  if (activeTabDef && activeTabDef.summer) {
+    let totalSummer = 0;
+    DATA.sec.categories.forEach(cat => {
+      const summerProjects = cat.projects.filter(p => p.summer);
+      if (summerProjects.length === 0) return;
+      const filtered = getFilteredProjects(summerProjects);
+      totalSummer += summerProjects.length;
+
+      const catDiv = document.createElement('div');
+      catDiv.className = 'category';
+      catDiv.id = `cat-sum-${cat.id}`;
+      const doneCount = summerProjects.filter(p => p.status === 'done').length;
+      const pct = Math.round((doneCount / summerProjects.length) * 100);
+      catDiv.innerHTML = `
+        <div class="cat-header">
+          <span class="cat-title">${cat.title}</span>
+          <div class="cat-progress-wrap"><div class="cat-progress-bar" style="width:${pct}%"></div></div>
+          <span class="cat-pct">${pct}%</span>
+          <span class="cat-count">${summerProjects.length}</span>
+        </div>
+        <div class="projects-list" id="list-sum-${cat.id}">
+          ${filtered.length > 0
+            ? filtered.map(p => renderProject(p, cat.id)).join('')
+            : `<div class="empty-state"><div style="font-size:28px">📋</div><p>No projects match your filters.</p></div>`}
+        </div>`;
+      main.appendChild(catDiv);
+      filtered.forEach(p => {
+        if (expandedCards.has(p.id)) {
+          const card = document.getElementById(`card-${p.id}`);
+          if (card) card.classList.add('expanded');
+        }
+      });
+    });
+    if (totalSummer === 0) {
+      main.innerHTML = `<div class="empty-state"><div style="font-size:48px">☀️</div><p>No summer projects yet.<br>Tag a Security project with <code>summer: true</code> to surface it here.</p></div>`;
+    }
     return;
   }
 
