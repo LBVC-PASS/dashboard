@@ -887,6 +887,7 @@ body {
 .toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
 }
 .toast-icon {
   font-size: 16px;
@@ -914,6 +915,21 @@ body {
   color: #c8a94a;
   display: inline-block;
 }
+.toast-copy {
+  margin-top: 8px;
+  display: none;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #f7f6f2;
+  font-size: 11px;
+  font-family: 'DM Sans', sans-serif;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.toast-copy:hover { background: rgba(255,255,255,0.18); }
+.toast-copy.copied { color: #6fcf97; border-color: #6fcf97; }
 
 /* ── PRINT ────────────────────────────────────── */
 @media print {
@@ -1169,6 +1185,7 @@ body {
     <div class="toast-title" id="toast-title"></div>
     <div class="toast-msg" id="toast-msg"></div>
     <div class="toast-cmd" id="toast-cmd"></div>
+    <button class="toast-copy" id="toast-copy" onclick="copyToastCmd()">Copy</button>
   </div>
 </div>
 
@@ -2871,11 +2888,31 @@ function showToast(title, msg, cmd) {
   document.getElementById('toast-title').textContent = title;
   document.getElementById('toast-msg').textContent = msg;
   const cmdEl = document.getElementById('toast-cmd');
-  if (cmd) { cmdEl.textContent = cmd; cmdEl.style.display = 'inline-block'; }
-  else { cmdEl.style.display = 'none'; }
+  const copyBtn = document.getElementById('toast-copy');
+  if (cmd) {
+    cmdEl.textContent = cmd;
+    cmdEl.style.display = 'inline-block';
+    copyBtn.style.display = 'inline-block';
+    copyBtn.textContent = 'Copy';
+    copyBtn.classList.remove('copied');
+  } else {
+    cmdEl.style.display = 'none';
+    copyBtn.style.display = 'none';
+  }
   toast.classList.add('show');
   if (toastTimer) clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove('show'), 5000);
+}
+
+function copyToastCmd() {
+  const text = document.getElementById('toast-cmd').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('toast-copy');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => document.getElementById('toast').classList.remove('show'), 2000);
+  });
 }
 
 function cycleStatus(e, projectId, catId) {
