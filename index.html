@@ -1542,14 +1542,14 @@ let DATA = {
           },
           {
             id: 'SEC-023', title: 'Camera Computer Freezing',
-            status: 'active', priority: 'high', due: '',
-            scope: 'Investigate and resolve camera workstation freezing issue.',
+            status: 'done', priority: 'high', due: '',
+            scope: 'Investigate and resolve camera workstation freezing issue. New Lenovo computer received and tested — issue resolved. Pending quote to standardize both PCs to the same spec.',
             milestones: [
               { text: 'Reproduce and document freezing behaviour', done: true, doneDate: '2026-05-22' },
-              { text: 'IT testing — potential network issue', done: false },
-              { text: 'Diagnose root cause (hardware/software/driver/network)', done: false },
-              { text: 'Apply fix', done: false },
-              { text: 'Monitor stability', done: false },
+              { text: 'IT testing — potential network issue', done: true, doneDate: '2026-05-28' },
+              { text: 'Diagnose root cause (hardware/software/driver/network)', done: true, doneDate: '2026-05-28' },
+              { text: 'Apply fix — new Lenovo computer received and tested', done: true, doneDate: '2026-05-28' },
+              { text: 'Monitor stability', done: true, doneDate: '2026-05-28' },
             ],
             questions: [
               { text: 'Is this affecting one workstation or multiple?', done: false },
@@ -1559,6 +1559,7 @@ let DATA = {
             changelog: [
               { date: '2026-05-07', text: 'Item created.' },
               { date: '2026-05-22', text: 'Issue reproduced. IT is testing whether it is a network issue.' },
+              { date: '2026-05-28', text: 'New Lenovo computer received and tested — issue resolved. Quote pending to match both PCs to same spec. Project closed.' },
             ],
           },
           {
@@ -1578,17 +1579,20 @@ let DATA = {
           },
           {
             id: 'SEC-025', title: 'Upload Sound Files — Coordinate with Patrice',
-            status: 'queued', priority: 'med', due: '',
-            scope: 'Upload required sound files to the system through Patrice.',
+            status: 'done', priority: 'med', due: '',
+            scope: 'Upload required sound files to the system. MP3 files uploaded by consultant.',
             milestones: [
-              { text: 'Confirm list of sound files to upload with Patrice', done: false },
-              { text: 'Upload sound files', done: false },
-              { text: 'Test playback', done: false },
+              { text: 'Confirm list of sound files to upload with Patrice', done: true, doneDate: '2026-05-28' },
+              { text: 'Upload sound files', done: true, doneDate: '2026-05-28' },
+              { text: 'Test playback', done: true, doneDate: '2026-05-28' },
             ],
             questions: [],
             file: '',
             notes: '#intercom-system',
-            changelog: [{ date: '2026-05-07', text: 'Item created.' }],
+            changelog: [
+              { date: '2026-05-07', text: 'Item created.' },
+              { date: '2026-05-28', text: 'MP3 files uploaded by consultant. Project closed.' },
+            ],
           },
           {
             id: 'SEC-026', title: 'Sipelia — Create New Sound Files',
@@ -1607,10 +1611,10 @@ let DATA = {
           },
           {
             id: 'SEC-027', title: 'Auditorium — New Audio Recording for Security Emergency Measures',
-            status: 'queued', priority: 'high', due: '',
+            status: 'active', priority: 'high', due: '',
             scope: 'Produce new audio recordings for security emergency measures in the auditorium.',
             milestones: [
-              { text: 'Draft scripts for all emergency scenarios', done: false },
+              { text: 'Draft scripts for all emergency scenarios', done: true, doneDate: '2026-05-28' },
               { text: 'Review scripts with stakeholders', done: false },
               { text: 'Record audio files', done: false },
               { text: 'Install and test in auditorium system', done: false },
@@ -1618,14 +1622,17 @@ let DATA = {
             questions: [],
             file: '',
             notes: '',
-            changelog: [{ date: '2026-05-07', text: 'Item created.' }],
+            changelog: [
+              { date: '2026-05-07', text: 'Item created.' },
+              { date: '2026-05-28', text: 'Scripts drafted.' },
+            ],
           },
           {
             id: 'SEC-028', title: 'Auditorium — Showstop Procedure',
-            status: 'queued', priority: 'high', due: '',
+            status: 'active', priority: 'high', due: '',
             scope: 'Develop and implement the showstop procedure for the auditorium.',
             milestones: [
-              { text: 'Draft showstop procedure', done: false },
+              { text: 'Draft showstop procedure', done: true, doneDate: '2026-05-28' },
               { text: 'Review with relevant stakeholders', done: false },
               { text: 'Coordinate with auditorium and facilities staff', done: false },
               { text: 'Final approval', done: false },
@@ -1634,7 +1641,10 @@ let DATA = {
             questions: [],
             file: '',
             notes: '',
-            changelog: [{ date: '2026-05-07', text: 'Item created.' }],
+            changelog: [
+              { date: '2026-05-07', text: 'Item created.' },
+              { date: '2026-05-28', text: 'First draft completed.' },
+            ],
           },
           {
             id: 'SEC-029', title: 'Access Control — Cardholder Delete Privilege Fix',
@@ -1676,19 +1686,6 @@ let DATA = {
             file: '',
             notes: '',
             changelog: [{ date: '2026-05-09', text: 'Item created.' }],
-          },
-          {
-            id: 'SEC-033', title: 'Omnigo / Resolver — Feasibility Study', status: 'active', priority: 'med', due: '',
-            scope: 'Evaluate Omnigo (Resolver) incident management software for feasibility and fit within our security operations. Assess cost, integration with existing systems, and operational requirements.',
-            milestones: [
-              { text: 'Review Omnigo/Resolver product documentation and demos', done: false },
-              { text: 'Consult with peer institutions on usage and outcomes', done: false },
-              { text: 'Prepare feasibility and cost summary for management', done: false },
-              { text: 'Decision: adopt, defer, or decline', done: false },
-            ],
-            questions: [], file: '', notes: '',
-            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
-            summer: true,
           },
           {
             id: 'SEC-034', title: 'NFC Tags — TourPerfect (G & H Buildings)', status: 'active', priority: 'med', due: '',
@@ -1845,19 +1842,6 @@ let DATA = {
             summer: true,
           },
           {
-            id: 'SEC-040', title: 'Auditorium — Showstop Procedure', status: 'active', priority: 'high', due: '',
-            scope: 'Develop and document a formal showstop procedure for the auditorium, covering the conditions and authority required to halt an event, communication chain, and post-incident steps.',
-            milestones: [
-              { text: 'Draft showstop procedure document', done: false },
-              { text: 'Review with management and event stakeholders', done: false },
-              { text: 'Finalise and communicate to security team', done: false },
-              { text: 'Incorporate into auditorium event briefings', done: false },
-            ],
-            questions: [], file: '', notes: '',
-            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
-            summer: true,
-          },
-          {
             id: 'SEC-041', title: 'Auditorium — Emergency Instructions Message', status: 'active', priority: 'high', due: '',
             scope: 'Create a standardised emergency instructions message for auditorium events, covering evacuation routes, shelter-in-place, and emergency contact information. To be displayed or announced at the start of events.',
             milestones: [
@@ -1874,13 +1858,18 @@ let DATA = {
             id: 'SEC-042', title: 'Security — Onboarding & Offboarding Procedure', status: 'active', priority: 'med', due: '',
             scope: 'Develop a formal onboarding and offboarding procedure for security department personnel, covering access provisioning, equipment issuance, training requirements, and departure checklists.',
             milestones: [
-              { text: 'Draft onboarding checklist and procedure', done: false },
-              { text: 'Draft offboarding checklist and procedure', done: false },
+              { text: 'Draft onboarding checklist and procedure', done: true, doneDate: '2026-05-28' },
+              { text: 'Draft offboarding checklist and procedure', done: true, doneDate: '2026-05-28' },
+              { text: 'Sent to officers for review', done: true, doneDate: '2026-05-28' },
+              { text: 'Incorporate officer feedback', done: false },
               { text: 'Review with HR and management', done: false },
               { text: 'Finalise and publish procedures', done: false },
             ],
             questions: [], file: '', notes: '',
-            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            changelog: [
+              { date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' },
+              { date: '2026-05-28', text: 'Both onboarding and offboarding drafts completed. Sent to officers for review.' },
+            ],
             summer: true,
           },
         ]
@@ -2051,14 +2040,18 @@ let DATA = {
             id: 'SEC-044', title: 'Security Uniforms — Vanier Branding', status: 'active', priority: 'med', due: '',
             scope: 'Source and procure new security uniforms featuring Vanier College branding. Coordinate sizing, quantities, and delivery for the full security team.',
             milestones: [
-              { text: 'Define uniform specifications and branding requirements', done: false },
-              { text: 'Collect sizing information from all team members', done: false },
-              { text: 'Obtain quotes from suppliers', done: false },
+              { text: 'Samples, design, and branding requirements defined', done: true, doneDate: '2026-05-28' },
+              { text: 'Collect sizing information from all team members', done: true, doneDate: '2026-05-28' },
+              { text: 'Quotes obtained from suppliers', done: true, doneDate: '2026-05-28' },
+              { text: 'Budget validation', done: false },
               { text: 'Select supplier and place order', done: false },
               { text: 'Uniforms received and distributed', done: false },
             ],
             questions: [], file: '', notes: '',
-            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            changelog: [
+              { date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' },
+              { date: '2026-05-28', text: 'Samples, design, and quotes completed. Pending budget validation.' },
+            ],
             summer: true,
           },
           {
@@ -2075,30 +2068,20 @@ let DATA = {
             summer: true,
           },
           {
-            id: 'SEC-046', title: 'Uber Vouchers — Security Operations', status: 'active', priority: 'med', due: '',
-            scope: 'Establish an Uber voucher program for security operations use (e.g., safe ride home for students in distress, late-night agent transport). Define eligibility, approval workflow, and budget envelope.',
-            milestones: [
-              { text: 'Define use cases and eligibility criteria', done: false },
-              { text: 'Confirm budget allocation with management', done: false },
-              { text: 'Set up Uber for Business account or voucher system', done: false },
-              { text: 'Communicate procedure to security team', done: false },
-            ],
-            questions: [], file: '', notes: '',
-            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
-            summer: true,
-          },
-          {
             id: 'SEC-047', title: 'Additional Lockers — Order & Facilities Verification', status: 'active', priority: 'med', due: '',
             scope: 'Order additional lockers for the security team and verify status and readiness with Facilities. Coordinate delivery, installation location, and any required fitment work.',
             milestones: [
-              { text: 'Verify current locker status and shortfall with Facilities', done: false },
-              { text: 'Determine quantity and specifications required', done: false },
-              { text: 'Submit order or procurement request', done: false },
+              { text: 'Verify current locker status and shortfall with Facilities', done: true, doneDate: '2026-05-28' },
+              { text: 'Determine quantity and specifications required', done: true, doneDate: '2026-05-28' },
+              { text: 'Submit order or procurement request', done: true, doneDate: '2026-05-28' },
               { text: 'Confirm installation location with Facilities', done: false },
               { text: 'Lockers delivered and installed', done: false },
             ],
             questions: [], file: '', notes: '',
-            changelog: [{ date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' }],
+            changelog: [
+              { date: '2026-05-26', text: 'Project created. Summer 2026 initiative.' },
+              { date: '2026-05-28', text: 'Order placed. Waiting on delivery.' },
+            ],
             summer: true,
           },
         ]
