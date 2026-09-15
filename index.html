@@ -1746,6 +1746,8 @@ let DATA = {
           },
         ]
       },
+      {
+        id: 'sec-cat-sop',
         title: 'SOPs & Procedures',
         projects: [
           {
@@ -2557,16 +2559,26 @@ function updateStats() {
 
   // Tab counts
   TABS.forEach(tab => {
-    let cnt = 0;
-    DATA[tab.id].categories.forEach(cat => { cnt += cat.projects.length; });
     const el = document.getElementById(`tab-count-${tab.id}`);
-    if (el) el.textContent = cnt;
+    if (el) el.textContent = tabProjectCount(tab);
   });
   const compEl = document.getElementById('tab-count-completed');
   if (compEl) compEl.textContent = COMPLETED.length;
 }
 
 // ── RENDER TABS ───────────────────────────────────────────────────────────
+// Summer tabs are a filtered view of SEC projects tagged summer:true, so they
+// have no DATA entry of their own and must be counted from sec.
+function tabProjectCount(tab) {
+  let cnt = 0;
+  if (tab.summer) {
+    DATA.sec.categories.forEach(c => c.projects.forEach(p => { if (p.summer) cnt++; }));
+  } else {
+    DATA[tab.id].categories.forEach(c => cnt += c.projects.length);
+  }
+  return cnt;
+}
+
 function renderTabs() {
   const container = document.getElementById('tabs-inner');
   container.innerHTML = '';
@@ -2574,12 +2586,7 @@ function renderTabs() {
     const btn = document.createElement('button');
     btn.className = 'tab-btn' + (tab.major ? ' major' : '') + (tab.summer ? ' summer' : '') + (tab.id === activeTab ? ' active' : '');
     btn.dataset.tab = tab.id;
-    let cnt = 0;
-    if (tab.summer) {
-      DATA.sec.categories.forEach(c => c.projects.forEach(p => { if (p.summer) cnt++; }));
-    } else {
-      DATA[tab.id].categories.forEach(c => cnt += c.projects.length);
-    }
+    const cnt = tabProjectCount(tab);
     btn.innerHTML = `${tab.label} <span class="tab-count" id="tab-count-${tab.id}">${cnt}</span>`;
     btn.addEventListener('click', () => { activeTab = tab.id; renderAll(); });
     container.appendChild(btn);
