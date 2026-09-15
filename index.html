@@ -1400,18 +1400,21 @@ let DATA = {
         projects: [
           {
             id: 'SEC-010', title: 'N100 Bathroom Camera',
-            status: 'active', priority: 'med', due: '2026-08-15',
+            status: 'done', priority: 'med', due: '2026-08-15',
             scope: 'Camera installation in N100 bathroom. Wiring coordination with IT.',
             milestones: [
               { text: 'Sent to IT for wiring', done: true },
-              { text: 'Wiring completed', done: false },
-              { text: 'Camera installed and configured in Genetec', done: false },
-              { text: 'Testing and sign-off', done: false },
+              { text: 'Wiring completed', done: true, doneDate: '2026-09-15' },
+              { text: 'Camera installed and configured in Genetec', done: true, doneDate: '2026-09-15' },
+              { text: 'Testing and sign-off', done: true, doneDate: '2026-09-15' },
             ],
             questions: [],
             file: '',
             notes: '',
-            changelog: [{ date: '2026-04-29', text: 'Item created.' }],
+            changelog: [
+              { date: '2026-04-29', text: 'Item created.' },
+              { date: '2026-09-15', text: 'Installation complete. Project closed.' },
+            ],
           },
           {
             id: 'SEC-011', title: 'E-115 Bathroom Camera',
